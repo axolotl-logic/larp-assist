@@ -1,9 +1,7 @@
 <template>
-  <q-page padding>
-    {{ name }}
-    <MotdsList :motds="motds"/>
-    <DivinationsList :divinations="divinations"/>
-  </q-page>
+  {{ name }}
+  <MotdsList :motds="motds"/>
+  <DivinationsList :divinations="divinations"/>
 </template>
 
 <script lang="ts">

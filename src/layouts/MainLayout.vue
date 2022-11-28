@@ -1,10 +1,25 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-page-container>
-      <q-btn @click="signOut">Logout</q-btn>
-      <router-view />
-    </q-page-container>
-  </q-layout>
+    <q-layout view="lHh lpr lFf">
+      <q-header elevated>
+        <q-toolbar class="q-px-lg">
+          <q-icon name="tips_and_updates" size="md"/>
+
+          <q-toolbar-title>LARP Assist</q-toolbar-title>
+
+          <q-btn
+              size="md"
+              label="Logout"
+              @click="logout"
+              color="secondary"/>
+        </q-toolbar>
+      </q-header>
+
+      <q-page-container>
+        <q-page padding>
+          <router-view />
+        </q-page>
+      </q-page-container>
+    </q-layout>
 </template>
 
 <script lang='ts'>

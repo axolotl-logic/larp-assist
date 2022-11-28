@@ -1,11 +1,9 @@
 <template>
-  <q-page padding>
-    <MotdCrudTable/>
-    <DivinationCrudTable/>
-    <TransactionCrudTable/>
-    <CurrencyCrudTable/>
-    <MarketCrudTable/>
-  </q-page>
+  <MotdCrudTable/>
+  <DivinationCrudTable/>
+  <TransactionCrudTable/>
+  <CurrencyCrudTable/>
+  <MarketCrudTable/>
 </template>
 
 <script lang="ts">
