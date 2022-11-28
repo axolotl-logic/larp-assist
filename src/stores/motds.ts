@@ -1,18 +1,17 @@
 // Pinia data store
 import { defineStore } from 'pinia'
 
-// Firebase/Firestore
-import {
-  getFirestore, getDocs, collection, query, where,
-  updateDoc, doc
-} from 'firebase/firestore'
-
 // Ours
-import { useUserStore } from 'stores/user'
+import { firestoreCrudActions, firestoreList } from 'stores/firestore'
 
 export interface Motd {
   content: string
+  userId: string
   id: string
+}
+
+export interface MotdPatch {
+  content: string
   userId: string
 }
 
@@ -22,36 +21,23 @@ export const useMotdsStore = defineStore('motds', {
   }),
 
   actions: {
-    saveContent(id: string, content: string) {
-      const db = getFirestore()
-      const docRef = doc(db, `motds/${id}`)
-      
-      return updateDoc(docRef, {content: content})
-    },
-    
-    fetchMotds(): Promise<Array<Motd>> {
-      const db = getFirestore()
-      const userStore = useUserStore()
+    ...firestoreCrudActions('motds'),
+    fetch() {
+      return firestoreList('motds', {userScoped: true}).then(docs => {
+        this.motds = []
+        docs.forEach(doc => {
+          const motd = doc.data()
+          if (motd) {
+            this.motds.push({
+              content: motd.content,
+              userId: motd.userId,
+              id: doc.id,
+            })
+          }
+        })
 
-      const motdsRef = collection(db, 'motds')
-      let q = query(motdsRef)
-      if (!userStore.isGm) {
-        console.log(userStore.userId)
-        q = query(motdsRef,
-                  where('userId', 'in', ['', userStore.userId]))
-      }
-
-      this.motds = []
-      return getDocs(q).then(docs =>  docs.forEach(doc => {
-        const motd = doc.data()
-        if (motd) {
-          this.motds.push({
-            content: motd.content,
-            id: doc.id,
-            userId: motd.userId,
-          })
-        }
-      })).then(() => this.motds)
-    },
+        return this.motds
+      })
+    }
   }
 })

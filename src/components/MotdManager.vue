@@ -1,36 +1,13 @@
 <template>
   <div class="q-pa-md">
-    {{ motds }}
-    <q-table
-      title="MOTDs"
-      :rows="motds"
-      :columns="columns"
-      row-key="id"
-      binary-state-sort
-    >
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td key="content" :props="props" class="cursor-pointer">
-            {{ props.row.content }}
-            <q-popup-edit
-                v-model="props.row.content"
-                v-slot="scope"
-                persistant
-                buttons
-                @save="content => saveContent(props.row.id, content)"
-                :validate="v => v.length > 0"
-                >
-              <q-input
-                  type="textarea"
-                  v-model="scope.value"
-                  autofocus
-                  :rules="[v => scope.validate(scope.value) || 'Field required']"
-                  />
-            </q-popup-edit>
-          </q-td>
-        </q-tr>
-      </template>
-    </q-table>
+    <CrudTable
+        :columns="columns"
+        :rows="motds"
+        :dialog="dialog"
+        :loading="loading"
+        title="MOTDs"
+        @refresh="fetchMotds"
+        @delete="deleteMotd" />
   </div>
 </template>
 
@@ -40,50 +17,82 @@ import { ref } from 'vue'
 
 // Ours
 import { useMotdsStore } from 'stores/motds'
-
-const columns = [
-  {
-    name: 'content',
-    required: true,
-    label: 'Content',
-    align: 'left',
-    field: 'content',
-    sortable: true
-  },
-]
+import { useUserStore } from 'stores/user'
+import MotdFormDialog from 'components/MotdForm.vue'
+import CrudTable from 'components/CrudTable.vue'
 
 const motdsStore = useMotdsStore()
+const userStore = useUserStore()
 
 export default {
-  setup() {
-    return {
-      columns: columns
+  components: { CrudTable },
+
+  computed: {
+    userNames() {
+      return userStore.userNames
     }
   },
 
-  data() {
-    this.fetchMotds()
-
+  setup() {
     return {
-      motds: ref([]),
+      loading: ref(true),
+      motds: ref(),
+      columns: [
+        {
+          name: 'content',
+          field: 'content',
+          label: 'Content',
+          required: true,
+          align: 'left',
+          sortable: true
+        },
+        {
+          name: 'userName',
+          required: false,
+          label: 'Character',
+          align: 'left',
+          field: 'userName',
+          sortable: true
+        },
+        { name: 'actions', label: 'Action' }
+      ]
     }
   },
 
   methods: {
-    fetchMotds() {
-      motdsStore.fetchMotds()
-        .then(motds => this.motds = motds)
-        .catch(err => this.$q.notify({
-          type: 'negative',
-          message: err.message
-        }))
+    dialog(motd) {
+      return {
+        component: MotdFormDialog,
+        componentProps: {
+          motd: motd || {},
+          userNames: this.userNames
+        }
+      }
     },
-    saveContent(id, content) {
-      motdsStore.saveContent(id, content).catch((err) => {
-        this.$q.notify({type: 'negative', message: err.message})
-        motdsStore.fetchMotds().then(motds => this.motds = motds)
+
+    deleteMotd(motd, onSuccess) {
+      this.loading = true
+
+      motdsStore.delete(motd.id).then(() => {
+        onSuccess()
+
+        this.loading = false
       })
-    }
+    },
+
+    fetchMotds() {
+      this.loading = true
+      return motdsStore.fetch().then(motds => {
+        userStore.fetchUserNames().then(userNames => {
+          motds.forEach(motd => {
+            motd.userName = userNames.get(motd.userId, '')
+          })
+
+          this.motds = motds
+          this.loading = false
+        })
+      })
+    },
   }
 }
 </script>

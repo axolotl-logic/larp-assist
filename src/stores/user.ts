@@ -5,9 +5,16 @@ import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core'
 
 // Firebase/Firestore
-import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
+import {
+  getFirestore, doc, setDoc, getDoc, getDocs, collection
+} from 'firebase/firestore';
 
-function signedOutUser() {
+export interface UserPreference {
+  userId: string
+  name: string
+}
+
+function getSignedOutUser() {
   return {
     isAuthorized: false,
     name: '',
@@ -18,7 +25,8 @@ function signedOutUser() {
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    user: useStorage('user', signedOutUser())
+    user: useStorage('user', getSignedOutUser()),
+    userNames: new Map<string, string>
   }),
 
   getters: {
@@ -40,9 +48,26 @@ export const useUserStore = defineStore('user', {
   },
 
   actions: {
-    signOut(): void {
-      this.user = signedOutUser()
+    fetchUserNames(): Promise<Map<string, string>> {
+      const db = getFirestore()
+      
+      return getDocs(collection(db, 'userPreferences')).then(docs => {
+        this.userNames = new Map<string, string>()
+        docs.forEach(doc => {
+          const prefData = doc.data()
+          if (prefData) {
+            this.userNames.set(doc.id, prefData.name)
+          }
+        })
+        
+        return this.userNames
+      })
     },
+    
+    signOut(): void {
+      this.user = getSignedOutUser()
+    },
+    
     login(userId: string): Promise<void> {
       const db = getFirestore()
       this.user.id = userId

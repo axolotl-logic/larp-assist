@@ -1,7 +1,8 @@
 <template>
   <q-page padding>
     {{ name }}
-    <MotdList :motds="motds"/>
+    <MotdsList :motds="motds"/>
+    <DivinationsList :divinations="divinations"/>
   </q-page>
 </template>
 
@@ -12,19 +13,24 @@ import { defineComponent, computed } from 'vue'
 // Ours
 import { useUserStore } from 'stores/user'
 import { useMotdsStore } from 'stores/motds'
-import MotdList from 'components/MotdList.vue'
+import { useDivinationsStore } from 'stores/divinations'
+import MotdsList from 'components/MotdsList.vue'
+import DivinationsList from 'components/DivinationsList.vue'
 
 export default defineComponent({
-  components: {MotdList},
+  components: {MotdsList, DivinationsList},
   setup() {
     const userStore = useUserStore()
     const motdsStore = useMotdsStore()
+    const divinationsStore = useDivinationsStore()
 
-    motdsStore.fetchMotds()
+    motdsStore.fetch()
+    divinationsStore.fetch()
 
     return {
       name: computed(() => userStore.user.name),
-      motds: computed(() => motdsStore.motds)
+      motds: computed(() => motdsStore.motds),
+      divinations: computed(() => divinationsStore.divinations),
     }
   },
 })

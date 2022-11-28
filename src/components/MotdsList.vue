@@ -7,14 +7,7 @@
 </template>
 
 <script lang="ts">
-
 export default {
   props: ['motds']
 }
 </script>
-
-<style>
-.page {
-  max-width: 800px;
-}
-</style>

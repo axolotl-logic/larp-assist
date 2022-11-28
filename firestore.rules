@@ -11,7 +11,8 @@ service cloud.firestore {
     }
 
     match /userPreferences/{userId} {
-      allow read, write: if isUserOrGm(userId);
+      allow write: if isUserOrGm(userId);
+      allow read: if isSignedIn();
     }
 
     match /{document=**} {
