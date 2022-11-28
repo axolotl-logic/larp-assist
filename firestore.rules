@@ -6,6 +6,11 @@ service cloud.firestore {
       allow write: if isGm()
     }
 
+    match /markets/{marketId} {
+      allow read: if isAnyResourceUserOrGm();
+      allow write: if isGm()
+    }
+
     match /currencies/{currencyId} {
       allow read: if isAnyResourceUserOrGm();
       allow write: if isGm()
@@ -50,7 +55,6 @@ service cloud.firestore {
     function isAnyResourceUserOrGm() {
       return isGm() || request.auth.uid in  resource.data.userId
     }
-
 
     function isResourceUserOrGm() {
       return isGm() || isResourceUser()

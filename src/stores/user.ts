@@ -9,11 +9,6 @@ import {
   getFirestore, doc, setDoc, getDoc, getDocs, collection
 } from 'firebase/firestore';
 
-export interface UserPreference {
-  userId: string
-  name: string
-}
-
 function getSignedOutUser() {
   return {
     isAuthorized: false,

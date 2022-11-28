@@ -7,8 +7,8 @@
         row-key="id"
         binary-state-sort>
       <template v-slot:top>
-        <div class="q-table__title q-mr-sm">{{ title }}</div>
-        <q-btn round size="xs" color="secondary" icon="add" @click="onAdd"/>
+        <q-btn round size="xs" class="q-mr-sm" color="secondary" icon="add" @click="onAdd"/>
+        <div class="q-table__title">{{ title }}</div>
       </template>
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">

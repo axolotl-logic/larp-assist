@@ -3,13 +3,7 @@ import { defineStore } from 'pinia'
 
 // Ours
 import { makeCrudActions, processCollection } from 'stores/firestore'
-
-export interface Divination {
-  content: string
-  name: string
-  userId: string
-  id: string
-}
+import { Divination } from 'src/models'
 
 export const useDivinationsStore = defineStore('divinations', {
   state: () => ({
@@ -21,6 +15,7 @@ export const useDivinationsStore = defineStore('divinations', {
     fetch() {
       return processCollection('divinations', {
         userScoped: true,
+        multipleUsers: false,
         setup: () => this.divinations = [],
         forEach: (id, data) => this.divinations.push({
           content: data.content,

@@ -3,12 +3,7 @@ import { defineStore } from 'pinia'
 
 // Ours
 import { makeCrudActions, processCollection } from 'stores/firestore'
-
-export interface Motd {
-  content: string
-  userId: string
-  id: string
-}
+import { Motd } from 'src/models'
 
 export const useMotdsStore = defineStore('motds', {
   state: () => ({
@@ -20,6 +15,7 @@ export const useMotdsStore = defineStore('motds', {
     fetch() {
       return processCollection('motds', {
         userScoped: true,
+        multipleUsers: false,
         setup: () => this.motds = [],
         forEach: (id, data) => this.motds.push({
           content: data.content,

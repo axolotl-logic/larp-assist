@@ -3,12 +3,7 @@ import { defineStore } from 'pinia'
 
 // Ours
 import { makeCrudActions, processCollection } from 'stores/firestore'
-
-export interface Currency {
-  name: string
-  userIds: Array<string>
-  id: string
-}
+import { Currency } from 'src/models'
 
 export const useCurrenciesStore = defineStore('currencies', {
   state: () => ({
