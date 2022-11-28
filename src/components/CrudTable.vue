@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  props: ['columns', 'rows', 'dialog', 'title', 'loading'],
+  props: ['columns', 'rows', 'form', 'dialog', 'title', 'loading'],
 
   emits: ['refresh', 'delete'],
 

@@ -1,6 +1,6 @@
 <template>
   <q-page padding>
-    <MotdManager/>
+    <MotdCrudTable/>
   </q-page>
 </template>
 
@@ -9,9 +9,9 @@
 import { defineComponent } from 'vue'
 
 // Ours
-import MotdManager from 'components/MotdManager.vue'
+import MotdCrudTable from 'components/MotdCrudTable.vue'
 
 export default defineComponent({
-  components: {MotdManager}
+  components: {MotdCrudTable}
 })
 </script>

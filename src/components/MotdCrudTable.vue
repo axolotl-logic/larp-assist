@@ -18,7 +18,7 @@ import { ref } from 'vue'
 // Ours
 import { useMotdsStore } from 'stores/motds'
 import { useUserStore } from 'stores/user'
-import MotdFormDialog from 'components/MotdForm.vue'
+import MotdDialogForm from 'components/MotdDialogForm.vue'
 import CrudTable from 'components/CrudTable.vue'
 
 const motdsStore = useMotdsStore()
@@ -62,7 +62,7 @@ export default {
   methods: {
     dialog(motd) {
       return {
-        component: MotdFormDialog,
+        component: MotdDialogForm,
         componentProps: {
           motd: motd || {},
           userNames: this.userNames
