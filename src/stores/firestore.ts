@@ -1,13 +1,13 @@
 // Firebase/Firestore
 import {
   getFirestore, getDocs, collection, query, where,
-  updateDoc, doc, addDoc, deleteDoc
+  updateDoc, doc, addDoc, deleteDoc, DocumentData
 } from 'firebase/firestore'
 
 // Ours
 import { useUserStore } from 'stores/user'
 
-export const firestoreCrudActions = (collectionPath: string) => {
+export const makeCrudActions = (collectionPath: string) => {
   return {
     update(id: string, data: object) {
       const db = getFirestore()
@@ -31,17 +31,31 @@ export const firestoreCrudActions = (collectionPath: string) => {
   }
 }
 
-export const firestoreList = (collectionPath: string, options: {userScoped: boolean}) => {
+export const processCollection = (
+  collectionPath: string,
+  options: {
+    userScoped: boolean,
+    forEach: (id: string, data: DocumentData) => void,
+    setup: () => void,
+    multipleUsers: boolean
+  }
+) => {
   const db = getFirestore()
   const userStore = useUserStore()
 
   const ref = collection(db, collectionPath)
   let q = query(ref)
   
-  const userScoped = options.userScoped
-  if (userScoped && !userStore.isGm) {
-    q = query(ref, where('userId', 'in', ['', userStore.userId]))
+  if (options.userScoped && !userStore.user.gm) {
+    if (options.multipleUsers) {
+      q = query(ref, where('userIds', 'array-contains-any', ['', userStore.user.id]))
+    } else {
+      q = query(ref, where('userId', 'in', ['', userStore.user.id]))
+    }
   }
-  
-  return getDocs(q)
+
+  return getDocs(q).then(docs => {
+    options.setup()
+    docs.forEach(doc => options.forEach(doc.id, doc.data()))
+  })
 }

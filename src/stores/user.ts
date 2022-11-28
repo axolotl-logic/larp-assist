@@ -29,24 +29,6 @@ export const useUserStore = defineStore('user', {
     userNames: new Map<string, string>
   }),
 
-  getters: {
-    name(): string {
-      return this.user.name
-    },
-    
-    isAuthorized(): boolean {
-      return this.user.isAuthorized
-    },
-    
-    isGm(): boolean {
-      return this.user.gm
-    },
-    
-    userId(): string {
-      return this.user.id
-    }
-  },
-
   actions: {
     fetchUserNames(): Promise<Map<string, string>> {
       const db = getFirestore()

@@ -1,11 +1,8 @@
 // Pinia data store
 import { defineStore } from 'pinia'
 
-// Firestore
-import { getDocs } from 'firebase/firestore'
-
 // Ours
-import { firestoreCrudActions, firestoreList } from 'stores/firestore'
+import { makeCrudActions, processCollection } from 'stores/firestore'
 
 export interface Divination {
   content: string
@@ -14,36 +11,24 @@ export interface Divination {
   id: string
 }
 
-export interface DivinationPatch {
-  content: string
-  name: string
-  userId: string
-}
-
 export const useDivinationsStore = defineStore('divinations', {
   state: () => ({
     divinations: [] as Array<Divination>
   }),
 
   actions: {
-    ...firestoreCrudActions('divinations'),
+    ...makeCrudActions('divinations'),
     fetch() {
-      return firestoreList('divinations', {userScoped: true}).then(docs => {
-        this.divinations = []
-        docs.forEach(doc => {
-          const divination = doc.data()
-          if (divination) {
-            this.divinations.push({
-              content: divination.content,
-              name: divination.name,
-              userId: divination.userId,
-              id: doc.id,
-            })
-          }
+      return processCollection('divinations', {
+        userScoped: true,
+        setup: () => this.divinations = [],
+        forEach: (id, data) => this.divinations.push({
+          content: data.content,
+          name: data.name,
+          userId: data.userId,
+          id: id,
         })
-
-        return this.divinations
-      })
+      }).then(() => this.divinations)
     }
   }
 })

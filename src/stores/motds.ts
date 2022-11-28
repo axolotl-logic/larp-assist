@@ -2,17 +2,12 @@
 import { defineStore } from 'pinia'
 
 // Ours
-import { firestoreCrudActions, firestoreList } from 'stores/firestore'
+import { makeCrudActions, processCollection } from 'stores/firestore'
 
 export interface Motd {
   content: string
   userId: string
   id: string
-}
-
-export interface MotdPatch {
-  content: string
-  userId: string
 }
 
 export const useMotdsStore = defineStore('motds', {
@@ -21,23 +16,17 @@ export const useMotdsStore = defineStore('motds', {
   }),
 
   actions: {
-    ...firestoreCrudActions('motds'),
+    ...makeCrudActions('motds'),
     fetch() {
-      return firestoreList('motds', {userScoped: true}).then(docs => {
-        this.motds = []
-        docs.forEach(doc => {
-          const motd = doc.data()
-          if (motd) {
-            this.motds.push({
-              content: motd.content,
-              userId: motd.userId,
-              id: doc.id,
-            })
-          }
-        })
-
-        return this.motds
-      })
+      return processCollection('motds', {
+        userScoped: true,
+        setup: () => this.motds = [],
+        forEach: (id, data) => this.motds.push({
+          content: data.content,
+          userId: data.userId,
+          id: id,
+        }),
+      }).then(() => this.motds)
     }
   }
 })

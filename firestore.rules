@@ -2,8 +2,24 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /motds/{motdId} {
-      allow read: if isGm() || resource.data.userId in ["", request.auth.uid];
+      allow read: if isResourceUserOrGm();
       allow write: if isGm()
+    }
+
+    match /currencies/{currencyId} {
+      allow read: if isAnyResourceUserOrGm();
+      allow write: if isGm()
+    }
+
+    match /divinations/{divinationId} {
+      allow read: if isResourceUserOrGm();
+      allow write: if isGm()
+    }
+
+    match /transactions/{txId} {
+      allow read: if isGm() || request.auth.uid in [resource.data.toUserId, resource.data.fromUserId];
+      allow write: if isGm() 
+      allow create: if isGm() || request.auth.uid == request.resource.data.createdByUserId
     }
 
     match /users/{userId} {
@@ -25,6 +41,19 @@ service cloud.firestore {
 
     function isGm() {
       return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.gm
+    }
+
+    function isResourceUser() {
+      return resource.data.userId in ["", request.auth.uid]
+    }
+
+    function isAnyResourceUserOrGm() {
+      return isGm() || request.auth.uid in  resource.data.userId
+    }
+
+
+    function isResourceUserOrGm() {
+      return isGm() || isResourceUser()
     }
 
     function isUser(userId) {
