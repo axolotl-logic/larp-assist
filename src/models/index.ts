@@ -1,7 +1,7 @@
 export interface Market {
   name: string
   userIds: Array<string>
-  currencyIds: Array<string>
+  currencyId: string
   id: string
 }
 

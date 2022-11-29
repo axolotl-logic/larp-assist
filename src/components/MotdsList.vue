@@ -1,9 +1,9 @@
 <template>
-  <q-card class="q-mb-md" v-for="motd in motds" v-bind:key="motd.id">
-    <q-card-section>
+  <q-list>
+    <q-item v-for="motd in motds" v-bind:key="motd.id">
       {{ motd.content }}
-    </q-card-section>
-  </q-card>
+    </q-item>
+  </q-list>
 </template>
 
 <script lang="ts">

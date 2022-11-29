@@ -9,7 +9,7 @@
           <q-btn
               size="md"
               label="Logout"
-              @click="logout"
+              @click="signOut"
               color="secondary"/>
         </q-toolbar>
       </q-header>

@@ -7,7 +7,8 @@ import { Market } from 'src/models'
 
 export const useMarketsStore = defineStore('markets', {
   state: () => ({
-    markets: [] as Array<Market>
+    markets: [] as Array<Market>,
+    marketsByCurrencyId: new Map<string, Array<Market>>
   }),
 
   actions: {
@@ -20,10 +21,18 @@ export const useMarketsStore = defineStore('markets', {
         forEach: (id, data) => this.markets.push({
           name: data.name,
           userIds: data.userIds,
-          currencyIds: data.currencyIds,
+          currencyId: data.currencyId,
           id: id,
         }),
-      }).then(() => this.markets)
+      }).then(() => {
+        this.markets.forEach(market => {
+          const markets = this.marketsByCurrencyId.get(market.currencyId) || []
+          markets.push(market)
+          this.marketsByCurrencyId.set(market.currencyId, markets)
+        })
+ 
+        return this.markets
+      })
     }
   }
 })

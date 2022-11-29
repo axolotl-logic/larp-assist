@@ -7,9 +7,10 @@ import { Currency } from 'src/models'
 
 export const useCurrenciesStore = defineStore('currencies', {
   state: () => ({
-    currencies: [] as Array<Currency>
+    currencies: [] as Array<Currency>,
+    currenciesById: new Map<string, Currency>
   }),
-
+  
   actions: {
     ...makeCrudActions('currencies'),
     fetch() {
@@ -22,7 +23,13 @@ export const useCurrenciesStore = defineStore('currencies', {
           userIds: data.userIds,
           id: id,
         }),
-      }).then(() => this.currencies)
+      }).then(() => {
+        this.currencies.forEach(
+          currency => this.currenciesById.set(currency.id, currency)
+        )
+        
+        return this.currencies
+      })
     }
   }
 })
