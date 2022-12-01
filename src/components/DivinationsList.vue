@@ -1,5 +1,5 @@
 <template>
-  <q-list>
+  <q-list class="text-body1">
     <q-expansion-item
         v-for="divination in divinations"
         v-bind:key="divination.uid"

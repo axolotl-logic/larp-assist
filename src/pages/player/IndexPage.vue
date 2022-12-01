@@ -16,7 +16,9 @@
     </div>
   </TitledCard>
   <TitledCard class="q-mb-lg" title="Currency">
-    <CurrencyTable />
+    <CurrencyList
+        :currencies="currencies"
+        :marketsByCurrencyId="marketsByCurrencyId"/>
   </TitledCard>
 </template>
 
@@ -35,14 +37,14 @@ import { useMarketsStore } from 'stores/markets'
 import TitledCard from 'components/TitledCard.vue'
 import MotdsList from 'components/MotdsList.vue'
 import DivinationsList from 'components/DivinationsList.vue'
-import CurrencyTable from 'components/CurrencyTable.vue'
+import CurrencyList from 'components/CurrencyList.vue'
 
 export default defineComponent({
   components: {
     TitledCard,
     MotdsList,
     DivinationsList,
-    CurrencyTable,
+    CurrencyList,
   },
   setup() {
     const userStore = useUserStore()
@@ -60,8 +62,8 @@ export default defineComponent({
       name: computed(() => userStore.user.name),
       motds: computed(() => motdsStore.motds),
       divinations: computed(() => divinationsStore.divinations),
-      currenciesById: computed(() => motdsStore.currenciesById),
-      marketsByCurrencyId: computed(() => divinationsStore.marketsByCurrencyId),
+      currencies: computed(() => currenciesStore.currencies),
+      marketsByCurrencyId: computed(() => marketsStore.marketsByCurrencyId),
     }
   },
 })
