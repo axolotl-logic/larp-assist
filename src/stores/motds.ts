@@ -2,27 +2,17 @@
 import { defineStore } from 'pinia'
 
 // Ours
-import { makeCrudActions, processCollection } from 'stores/firestore'
+import { makeCrudActions } from 'stores/firestore'
 import { Motd } from 'src/models'
 
-export const useMotdsStore = defineStore('motds', {
-  state: () => ({
-    motds: [] as Array<Motd>
-  }),
-
-  actions: {
-    ...makeCrudActions('motds'),
-    fetch() {
-      return processCollection('motds', {
-        userScoped: true,
-        multipleUsers: false,
-        setup: () => this.motds = [],
-        forEach: (id, data) => this.motds.push({
-          content: data.content,
-          userId: data.userId,
-          id: id,
-        }),
-      }).then(() => this.motds)
-    }
+export const useMotdsStore = defineStore('motds', () => {
+  return {
+    ...makeCrudActions<Motd>('motds', {
+      map: (id, data) => ({
+        content: data.content,
+        userId: data.userId,
+        id: id,
+      })
+    })
   }
 })

@@ -1,16 +1,16 @@
 <template>
   <q-dialog ref="dialog" @hide="onDialogHide">
     <q-card class="q-dialog-plugin">
-      <q-card-section>
-        <q-form class="full-width">
+      <q-form class="full-width" @submit="onSubmit">
+        <q-card-section>
           <slot>Not yet implemented.</slot>
-        </q-form>
-      </q-card-section>
+        </q-card-section>
 
-      <q-card-actions align="right">
-        <q-btn color="primary" label="OK" @click="onOKClick" />
-        <q-btn color="primary" label="Cancel" @click="onCancelClick" />
-      </q-card-actions>
+        <q-card-actions align="right">
+          <q-btn color="primary" label="Submit" @submit="onSubmit" type="submit"/>
+            <q-btn color="primary" label="Cancel" @click="onCancelClick" />
+        </q-card-actions>
+      </q-form>
     </q-card>
   </q-dialog>
 </template>
@@ -18,7 +18,9 @@
 <script lang="ts">
 
 export default {
-  emits: [ 'ok', 'hide' ],
+  emits: [ 'submit', 'hide' ],
+
+  expose: ['show'],
 
   methods: {
     show () {
@@ -37,9 +39,8 @@ export default {
       this.hide()
     },
 
-    onOKClick () {
-      this.$emit('ok')
-
+    onSubmit() {
+      this.$emit('submit')
       this.hide()
     },
   },

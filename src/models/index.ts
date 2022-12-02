@@ -1,30 +1,38 @@
-export interface Market {
+export interface Model {
+  id: string
+}
+
+export interface Market extends Model {
   name: string
   userIds: Array<string>
   currencyId: string
-  id: string
 }
 
-export interface Currency {
+export interface Currency extends Model {
   name: string
   userIds: Array<string>
-  id: string
 }
 
-export interface Divination {
+export interface Divination extends Model {
   content: string
   name: string
   userId: string
-  id: string
 }
 
-export interface Motd {
+export interface Motd extends Model {
   content: string
   userId: string
-  id: string
 }
 
 export interface UserPreference {
   userId: string
   name: string
+}
+
+export interface Transaction extends Model {
+  amount: number
+  toUserId: string
+  fromUserId: string
+  currency: string
+  notes: string
 }

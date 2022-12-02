@@ -23,46 +23,14 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ['columns', 'rows', 'form', 'dialog', 'title', 'loading'],
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useQuasar } from 'quasar'
 
-  emits: ['refresh', 'delete'],
+const props = defineProps(['columns', 'rows', 'title', 'loading'])
+const emit = defineEmits(['delete', 'edit'])
 
-  data() {
-    this.refresh()
-    return {}
-  },
-
-  methods: {
-    refresh() {
-      this.$emit('refresh')
-    },
-
-    onEdit(row) {
-      this.$q.dialog(this.dialog(row)).onOk(() => {
-        this.$q.notify({
-          type: 'positive',
-          message: 'Succesfully saved!',
-        })
-
-        this.refresh()
-      })
-    },
-
-    onAdd() {
-      this.onEdit()
-    },
-
-    onDelete(motd) {
-      this.$emit('delete', motd, () => {
-        this.refresh()
-        this.$q.notify({
-          type: 'positive',
-          message: 'Successfully deleted!',
-        })
-      })
-    },
-  }
-}
+const onEdit = (row) => emit('edit', row)
+const onDelete = (row) => emit('delete', row)
+const onAdd = onEdit
 </script>

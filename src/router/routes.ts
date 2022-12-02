@@ -1,8 +1,16 @@
 // Vue
-import { RouteRecordRaw } from 'vue-router';
+import { RouteRecordRaw, onBeforeRouteUpdate } from 'vue-router';
 
 // Ours
 import { useUserStore } from 'stores/user'
+
+onBeforeRouteUpdate((from, to, next) => {
+  const userStore = useUserStore()
+  console.log('hi')
+  Promise.all([
+    userStore.fetchUserNames()
+  ]).then(() => next())
+})
 
 const routes: RouteRecordRaw[] = [
   {
@@ -13,7 +21,7 @@ const routes: RouteRecordRaw[] = [
         path: '', 
         redirect: () => {
           const store = useUserStore()
-          return { path: store.isGm ? '/gm' : '/player' }
+          return { path: store.user.gm ? '/gm' : '/player' }
         },
       },
       { path: 'auth', component: () => import('pages/AuthPage.vue') },

@@ -28,21 +28,13 @@
   </q-card>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 // Vue
-import { defineComponent, ref } from 'vue'
+import { ref } from 'vue'
 
 // Ours
-import RegistrationForm from 'components/RegistrationForm.vue'
-import LoginForm from 'components/LoginForm.vue'
+import RegistrationForm from 'components/common/RegistrationForm.vue'
+import LoginForm from 'components/common/LoginForm.vue'
 
-export default defineComponent({
-  components: {RegistrationForm, LoginForm},
-
-  setup() {
-    return {
-      tab: ref('login')
-    }
-  }
-})
+const tab = ref('login')
 </script>

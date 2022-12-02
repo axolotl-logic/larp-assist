@@ -6,24 +6,27 @@
   <MarketCrudTable/>
 </template>
 
-<script lang="ts">
-// Vue
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { provide, computed } from 'vue'
 
-// Ours
-import MotdCrudTable from 'components/MotdCrudTable.vue'
-import CurrencyCrudTable from 'components/CurrencyCrudTable.vue'
-import DivinationCrudTable from 'components/DivinationCrudTable.vue'
-import TransactionCrudTable from 'components/TransactionCrudTable.vue'
-import MarketCrudTable from 'components/MarketCrudTable.vue'
+// Ours - Components
+import MotdCrudTable from 'components/gm/MotdCrudTable.vue'
+import CurrencyCrudTable from 'components/gm/CurrencyCrudTable.vue'
+import DivinationCrudTable from 'components/gm/DivinationCrudTable.vue'
+import TransactionCrudTable from 'components/gm/TransactionCrudTable.vue'
+import MarketCrudTable from 'components/gm/MarketCrudTable.vue'
 
-export default defineComponent({
-  components: {
-    MotdCrudTable,
-    DivinationCrudTable,
-    TransactionCrudTable,
-    CurrencyCrudTable,
-    MarketCrudTable
-  }
-})
+// Ours - Store
+import { useUserStore } from 'stores/user'
+import { useCurrenciesStore } from 'stores/currencies'
+
+const userStore = useUserStore()
+userStore.fetchUserNames()
+
+provide('userNames', computed(() => userStore.userNames))
+
+const currenciesStore = useCurrenciesStore()
+currenciesStore.refresh()
+
+provide('currencyNames', computed(() => currenciesStore.currencyNames))
 </script>

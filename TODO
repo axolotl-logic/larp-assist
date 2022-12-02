@@ -1,0 +1,4 @@
+1. switch to <script setup lang="ts">. 
+2. Change out props for stores
+3. https://www.npmjs.com/package/pinia-cached-store
+4. Turn registration page into user creation page.
