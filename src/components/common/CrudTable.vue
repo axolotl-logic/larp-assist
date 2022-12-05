@@ -4,6 +4,7 @@
         :rows="rows || []"
         :columns="columns"
         :loading="loading"
+        wrap-cells
         row-key="id"
         binary-state-sort>
       <template v-slot:top>
@@ -24,13 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useQuasar } from 'quasar'
-
-const props = defineProps(['columns', 'rows', 'title', 'loading'])
-const emit = defineEmits(['delete', 'edit'])
+defineProps(['columns', 'rows', 'title', 'loading'])
+const emit = defineEmits(['delete', 'edit', 'add'])
 
 const onEdit = (row) => emit('edit', row)
 const onDelete = (row) => emit('delete', row)
-const onAdd = onEdit
+const onAdd = () => emit('add')
 </script>

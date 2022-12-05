@@ -4,7 +4,12 @@
         <q-toolbar class="q-px-lg">
           <q-icon name="tips_and_updates" size="md"/>
 
-          <q-toolbar-title>LARP Assist</q-toolbar-title>
+          <q-toolbar-title>
+            <router-link style="text-decoration: none; color: inherit;" to="/">
+              LARP Assist
+            </router-link>
+          </q-toolbar-title>
+
 
           <q-btn
               size="md"

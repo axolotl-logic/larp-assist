@@ -1,16 +1,8 @@
 // Vue
-import { RouteRecordRaw, onBeforeRouteUpdate } from 'vue-router';
+import { RouteRecordRaw } from 'vue-router';
 
 // Ours
 import { useUserStore } from 'stores/user'
-
-onBeforeRouteUpdate((from, to, next) => {
-  const userStore = useUserStore()
-  console.log('hi')
-  Promise.all([
-    userStore.fetchUserNames()
-  ]).then(() => next())
-})
 
 const routes: RouteRecordRaw[] = [
   {
@@ -32,10 +24,10 @@ const routes: RouteRecordRaw[] = [
         ]
       },
       {
-        path: '/gm',
+        path: 'gm',
         children: [
           { path: '', component: () => import('pages/gm/IndexPage.vue') },
-          { path: 'motds', component: () => import('pages/gm/MotdCrudPage.vue') },
+          { path: 'books/:id', component: () => import('pages/gm/BookPage.vue') }
         ]
       }
     ],
