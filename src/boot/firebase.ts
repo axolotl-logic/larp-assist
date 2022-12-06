@@ -23,17 +23,19 @@ export default boot(({ app, router }) => {
 
   app.config.globalProperties.$auth = auth;
   app.config.globalProperties.$db = getFirestore(firebaseApp);
-  
+
   onAuthStateChanged(auth, user => {
     const userStore = useUserStore()
-    if (!user) {
+    if (!user && userStore.user.isAuthorized) {
       userStore.signOut()
+      router.go(0)
     }
   });
 
   router.beforeEach((to, from, next) => {
     const userStore = useUserStore()
     const authorized = userStore.user.isAuthorized;
+    console.log(`beforeEach ${authorized} ${to.path}`)
     if (!authorized && to.path !== '/auth') {
       next('auth');
     } else if (authorized && to.path === '/auth') {

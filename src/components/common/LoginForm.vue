@@ -33,20 +33,24 @@ import { useUserStore } from 'src/stores/user'
 
 export default {
   name: 'AuthComponent',
+
   data () {
     return {
       email: ref(''),
       password: ref('')
     }
   },
+
   methods: {
     required (val) {
       return !!val || 'Field is required'
     },
+
     signIn() {
       signInWithEmailAndPassword(this.$auth, this.email, this.password).then(userCred => {
-        useUserStore().login(userCred.user.uid)
-        this.$router.push('/')
+        useUserStore().login(userCred.user.uid).then(() => {
+          this.$router.push({path: '/'})
+        })
       })
       .catch(error => {
         const messages = {

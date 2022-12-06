@@ -60,7 +60,7 @@ export default defineComponent({
       const auth = getAuth()
       createUserWithEmailAndPassword(auth, this.email, this.password).then((userCred) => {
         this.store.register(this.name, userCred.user.uid).then(() => {
-          this.$router.push('/')
+          this.$router.push({path: '/'})
         })
       }).catch((error) => {
         const messages = {

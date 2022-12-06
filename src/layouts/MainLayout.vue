@@ -14,7 +14,7 @@
           <q-btn
               size="md"
               label="Logout"
-              @click="signOut"
+              @click="onSignOut"
               color="secondary"/>
         </q-toolbar>
       </q-header>
@@ -27,31 +27,18 @@
     </q-layout>
 </template>
 
-<script lang='ts'>
-// Vue
-import { defineComponent } from 'vue'
+<script setup lang='ts'>
+// Quasar (plugins)
+import { useQuasar } from 'quasar'
 
 // Firebase
-import { signOut } from 'firebase/auth';
+import { signOut, getAuth } from 'firebase/auth';
 
-// Ours
-import { useUserStore } from 'stores/user'
+const $q = useQuasar()
 
-export default defineComponent({
-  name: 'MainLayout',
-  methods: {
-    signOut() {
-      signOut(this.$auth)
-        .then(() => {
-          const userStore = useUserStore()
-          userStore.signOut()
-          this.$router.push('/')
-        })
-        .catch(err => {
-            console.log('Notify!')
-            this.$q.notify({type: 'negative', message: err})
-        })
-    }
-  }
-});
+const onSignOut = () =>{
+  signOut(getAuth()).catch(err => {
+    $q.notify({type: 'negative', message: err})
+  })
+}
 </script>
