@@ -48,7 +48,6 @@
 <script setup lang="ts">
 // Vue
 import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 // Ours - stores
 import { useBooksStore } from 'stores/books'
@@ -56,8 +55,6 @@ import { useBooksStore } from 'stores/books'
 // Ours - Components
 import CrudTable from 'components/common/CrudTable.vue'
 import DialogForm from 'components/common/DialogForm.vue'
-
-const router = useRouter()
 
 const columns = [
   ...['name', 'author', 'code', 'description', 'location'].map(name => ({

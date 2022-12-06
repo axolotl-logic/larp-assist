@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, inject } from 'vue'
+import { computed, inject } from 'vue'
 
 defineProps({
   label: String
