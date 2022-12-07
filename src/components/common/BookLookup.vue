@@ -11,10 +11,10 @@
     </q-card>
   </q-dialog>
   <div class="col">
-    <q-form @submit="onLookup">
+    <q-form @submit="onRead">
       <div class="row lookup-form">
         <q-input outlined v-model="bookCode" :rules="[validateCode]" label="Book Code" class="col" />
-        <q-btn color="primary" label="Lookup" type="submit" class="col-auto q-ml-sm"/>
+        <q-btn color="primary" label="Read" type="submit" class="col-auto q-ml-sm"/>
       </div>
     </q-form>
     <div class="col text-body1" v-if="book">
@@ -64,7 +64,7 @@ booksStore.refresh()
 
 const book = computed(() => booksStore.items.find((book) => book.code == bookCode.value))
 
-const onLookup = () => {
+const onRead = () => {
   if (book.value) {
     dialog.value.show()
   }

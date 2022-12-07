@@ -4,45 +4,82 @@
       <div class="currency-name">
         {{ currency.name }}
       </div>
-      <div class="text-body1">
-        Amount: {{ currency.amount }}
+      <div class="row text-body1">
+        <div class="col-3">Amount:</div>
+        <div class="col">{{ currency.amount }}</div>
       </div>
-      <div class="row">
-        <div v-for="market in currency.markets" v-bind:key="market.id">
-          <q-btn to="/market/" :label="market.name" outline color="accent" />
+      <div class="row text-body1">
+        <div class="col-3">Markets:</div>
+        <div class="col">
+          <div v-for="market in currency.markets" v-bind:key="market.id">
+            <router-link class="text-link" to="/market/">{{market.name}}</router-link>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <q-separator inset class="q-mb-md" />
+  <div class="text-h6 q-mb-md">
+    Transfer
+  </div>
+  <q-form @submit="onTransfer">
+    <div class="col">
+      <div class="row">
+        <q-input outlined v-model="transferAmount" :rules="[validateAmount]" label="Amount" class="col-3" />
+        <CurrencySelect label="Currency" v-model="transferCurrency" class="col" />
+
+      </div>
+      <CharacterSelect label="To" v-model="transferTo" />
+      <q-btn color="primary" label="Transfer" type="submit" class="q-mt-lg"/>
+    </div>
+  </q-form>
 </template>
 
-<script lang="ts">
-import {Market, Currency} from 'src/models'
+<script setup lang="ts">
+// Vue
+import { computed, ref, inject } from 'vue'
 
-export default {
-  props: {
-    marketsByCurrencyId: {
-      type: Map<string, Array<Market>>,
-      required: true
-    },
-    currencies: {
-      type: Array<Currency>,
-      required: true
-    }
-  },
+// Ours - components
+import CharacterSelect from 'components/common/CharacterSelect.vue'
+import CurrencySelect from 'components/common/CurrencySelect.vue'
 
-  computed: {
-    currenciesWithMarkets() {
-      return this.currencies.map(currency => ({
-          name: currency.name,
-          id: currency.id,
-          amount: 0,
-          markets: this.marketsByCurrencyId.get(currency.id) || []
-        })
-      )
-    }
+const onTransfer = () => {
+  console.log('Transfering!')
+}
+
+const validateAmount = (val) => {
+  const amount = Number(val)
+
+  if (!(Number.isInteger(amount) && amount >= 0)) {
+    return 'Invalid amount'
   }
 }
+
+const transferAmount = ref(0)
+const transferTo = ref()
+const transferCurrency = ref()
+
+const markets = inject('markets')
+const marketsByCurrency = computed(() => {
+  const byCurrency = new Map()
+  markets.value.forEach(market => {
+    const currencyId = market.currencyId
+    const siblingMarkets = byCurrency.get(currencyId) || []
+    byCurrency.set(currencyId, siblingMarkets.concat(market))
+  })
+
+  return byCurrency
+})
+
+const currencies = inject('currencies')
+const currenciesWithMarkets = computed(() => {
+  return currencies.value.map(currency => ({
+    name: currency.name,
+    id: currency.id,
+    amount: 0,
+    markets: marketsByCurrency.value.get(currency.id) || []
+  }))
+})
 </script>
 
 <style lang="scss">

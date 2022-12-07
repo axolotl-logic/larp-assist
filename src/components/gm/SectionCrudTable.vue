@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <CrudTable
         :columns="columns"
-        :rows="sortedSections"
+        :rows="sections"
         :loading="loading"
         title="Sections"
         @add="onAdd"
@@ -118,15 +118,8 @@ const onSubmit = () => {
 }
 
 // The rows we're displaying.
-const unsortedSections = computed(() => sectionsStore.sectionsByBookId.get(props.bookId))
-
-const sortedSections = ref([])
-watch(unsortedSections, (rows) => {
-  if (!rows) {
-    return
-  }
-
-  sortedSections.value = sortSections(rows)
+const sections = computed(() => {
+  return sortSections(sectionsStore.sectionsByBookId.get(props.bookId) || [])
 })
 
 // Determines when the loading indicator will be shown in the table
@@ -142,18 +135,18 @@ const onEdit = (section) => {
 }
 
 const onAdd = () => {
-  const lastSection = Math.max(
-    ...[...sortedSections.value.map((section) => section.sectionIdx), 0]
-  )
-
-  const lastChapter = Math.max(
-    ...[...sortedSections.value.map((section) => section.chapterIdx), 1]
-  )
+  let lastSectionIdx = 0
+  let lastChapterIdx = 1
+  if (sections.value && sections.value.length > 0) {
+    const lastSection = sections.value[sections.value.length - 1]
+    lastSectionIdx = lastSection.sectionIdx
+    lastChapterIdx = lastSection.chapterIdx
+  }
 
   return onEdit({
     type: SectionType.Inline,
-    sectionIdx: lastSection + 1,
-    chapterIdx: lastChapter
+    sectionIdx: lastSectionIdx + 1,
+    chapterIdx: lastChapterIdx
   })
 }
 </script>

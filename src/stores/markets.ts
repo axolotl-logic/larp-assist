@@ -10,7 +10,7 @@ export const useMarketsStore = defineStore('markets', () => {
     ...makeCrudActions<Market>('markets', {
       map: (id, data) => ({
         name: data.name,
-        userIds: data.userIds,
+        userIds: data.userIds || [],
         currencyId: data.currencyId,
         id: id,
       })

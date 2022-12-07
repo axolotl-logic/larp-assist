@@ -1,7 +1,6 @@
 <template>
   <MotdCrudTable/>
   <DivinationCrudTable/>
-  <TransactionCrudTable/>
   <CurrencyCrudTable/>
   <MarketCrudTable/>
   <BookCrudTable/>
@@ -15,7 +14,6 @@ import { provide, computed } from 'vue'
 import MotdCrudTable from 'components/gm/MotdCrudTable.vue'
 import CurrencyCrudTable from 'components/gm/CurrencyCrudTable.vue'
 import DivinationCrudTable from 'components/gm/DivinationCrudTable.vue'
-import TransactionCrudTable from 'components/gm/TransactionCrudTable.vue'
 import MarketCrudTable from 'components/gm/MarketCrudTable.vue'
 import BookCrudTable from 'components/gm/BookCrudTable.vue'
 import TrapCrudTable from 'components/gm/TrapCrudTable.vue'

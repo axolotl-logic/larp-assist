@@ -75,8 +75,13 @@ const formData = ref()
 const dialog = ref(null)
 
 // The callback when you click edit or add
-const onEdit = divination => {
-  formData.value = {...divination}
+const onEdit = (divination = {}) => {
+  formData.value = {
+    id: divination.id,
+    content: divination.content,
+    name: divination.name,
+    userId: divination.userId || '',
+  }
   dialog.value.show()
 }
 

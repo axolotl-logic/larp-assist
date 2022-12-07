@@ -10,8 +10,8 @@ export const useTransactionsStore = defineStore('transactions', () => {
     ...makeCrudActions<Transaction>('transactions', {
       map: (id, data) => ({
         amount: data.amount,
-        toUserId: data.toUserId,
-        fromUserId: data.fromUserId,
+        toUserId: data.toUserId || '',
+        fromUserId: data.fromUserId || '',
         currency: data.currency,
         notes: data.notes,
         createdAtEpoch: data.createdAtEpoch,

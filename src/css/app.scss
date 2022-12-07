@@ -13,3 +13,8 @@
   background: transparent;
 }
 
+.text-link, .text-link:visited  {
+  color: $primary;
+  border-bottom: 1px solid $primary;
+  text-decoration: none;
+}

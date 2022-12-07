@@ -11,7 +11,7 @@ export const useDivinationsStore = defineStore('divinations', () => {
       map: (id, data) => ({
         content: data.content,
         name: data.name,
-        userId: data.userId,
+        userId: data.userId || '',
         id: id,
       })
     })

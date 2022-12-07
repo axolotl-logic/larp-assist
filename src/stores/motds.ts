@@ -10,7 +10,7 @@ export const useMotdsStore = defineStore('motds', () => {
     ...makeCrudActions<Motd>('motds', {
       map: (id, data) => ({
         content: data.content,
-        userId: data.userId,
+        userId: data.userId || '',
         id: id,
       })
     })

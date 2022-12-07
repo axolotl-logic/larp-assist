@@ -61,8 +61,12 @@ const formData = ref()
 const dialog = ref(null)
 
 // The callback when you click edit or add
-const onEdit = motd => {
-  formData.value = {...motd}
+const onEdit = (motd = {}) => {
+  formData.value = {
+    id: motd.id,
+    userId: motd.userId || '',
+    content: motd.content
+  }
   dialog.value.show()
 }
 

@@ -1,7 +1,7 @@
 <template>
   <q-layout class="bg-image" view="lHh lpr lFf">
     <q-page-container>
-      <q-page padding class="page">
+      <q-page padding class="page q-mx-auto">
         <router-view />
       </q-page>
     </q-page-container>
@@ -11,9 +11,10 @@
 <style lang="scss">
 .bg-image {
   background-image: url(/images/background.jpg);
-  background-position: center;
+  background-position: fixed;
   background-size: cover;
 }
+
 .page {
   max-width: 768px;
 }
