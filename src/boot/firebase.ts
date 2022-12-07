@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { boot } from 'quasar/wrappers'
+import { computed } from 'vue'
 
 // Ours
 import { useUserStore } from 'stores/user'
@@ -23,9 +24,10 @@ export default boot(({ app, router }) => {
 
   app.config.globalProperties.$auth = auth;
   app.config.globalProperties.$db = getFirestore(firebaseApp);
+  const userStore = useUserStore()
+  app.config.globalProperties.$user = computed(() => userStore.user)
 
   onAuthStateChanged(auth, user => {
-    const userStore = useUserStore()
     if (!user && userStore.user.isAuthorized) {
       userStore.signOut()
       router.go(0)
@@ -35,7 +37,6 @@ export default boot(({ app, router }) => {
   router.beforeEach((to, from, next) => {
     const userStore = useUserStore()
     const authorized = userStore.user.isAuthorized;
-    console.log(`beforeEach ${authorized} ${to.path}`)
     if (!authorized && to.path !== '/auth') {
       next('auth');
     } else if (authorized && to.path === '/auth') {

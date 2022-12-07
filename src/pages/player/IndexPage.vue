@@ -1,8 +1,8 @@
 <template>
-  <div class="text-h5 q-mb-lg">
-    {{ name }},
+  <div class="text-h2 q-mb-lg text-wizard">
+    The journal of {{ name }}
   </div>
-  <TitledCard class="q-mb-lg" title="MOTDs">
+  <TitledCard class="q-mb-lg" title="Missives">
     <MotdsList v-if="motds.length > 0" :motds="motds"/>
     <div v-else>
       No MOTDs
@@ -15,10 +15,8 @@
       No MOTDs
     </div>
   </TitledCard>
-  <TitledCard class="q-mb-lg" title="Currency">
-    <!--CurrencyList
-        :currencies="currencies"
-        :marketsByCurrencyId="marketsByCurrencyId"/-->
+  <TitledCard class="q-mb-lg" title="Library">
+    <BookLookup />
   </TitledCard>
 </template>
 
@@ -37,7 +35,7 @@ import { useMarketsStore } from 'stores/markets'
 import TitledCard from 'components/common/TitledCard.vue'
 import MotdsList from 'components/player/MotdsList.vue'
 import DivinationsList from 'components/player/DivinationsList.vue'
-import CurrencyList from 'components/player/CurrencyList.vue'
+import BookLookup from 'components/common/BookLookup.vue'
 
 const motdsStore = useMotdsStore()
 motdsStore.refresh()

@@ -7,12 +7,12 @@
   <div class="text-h6">
     Preview
   </div>
-  <BookReader :chapters="chapters"/>
+  <BookReader :bookId="book.id"/>
 </template>
 
 <script setup lang="ts">
 // Vue
-import { computed, provide, ref, watch } from 'vue'
+import { provide, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 // Ours - Components
@@ -21,12 +21,8 @@ import TrapCrudTable from 'components/gm/TrapCrudTable.vue'
 import BookReader from 'components/common/BookReader.vue'
 
 // Ours - Store
-import { useTrapsStore } from 'stores/traps'
 import { useBooksStore } from 'stores/books'
-import { useSectionsStore } from 'stores/sections'
-
-// Ours - model
-import { groupSectionsByChapter } from 'src/models'
+import { useTrapsStore } from 'stores/traps'
 
 const route = useRoute()
 
@@ -34,20 +30,7 @@ const booksStore = useBooksStore()
 await booksStore.refresh()
 const book = booksStore.itemsById.get(route.params.id)
 
-const sectionsStore = useSectionsStore()
-sectionsStore.refresh()
-const sections = computed(() => sectionsStore.sectionsByBookId.get(book.id))
-
-const chapters = ref([])
-watch(sections, (latest) => {
-  if (latest) {
-    console.log("whee")
-    chapters.value = groupSectionsByChapter(latest)
-  }
-})
-
-
 const trapsStore = useTrapsStore()
-await trapsStore.refresh()
+trapsStore.refresh()
 provide('trapsById', computed(() => trapsStore.itemsById))
 </script>

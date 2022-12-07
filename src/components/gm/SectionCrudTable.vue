@@ -47,7 +47,7 @@
 import { computed, ref, inject, watch } from 'vue'
 
 // Ours - model
-import { SectionType, sortSections } from 'src/models'
+import { SectionType, sortSections } from 'src/models/books'
 
 // Ours - stores
 import { useSectionsStore } from 'stores/sections'
@@ -65,7 +65,8 @@ const trapsById = inject('trapsById')
 
 const displayText = (section: Section) => {
   if (section.type == SectionType.Trap) {
-    return trapsById.value.get(section.trapId).content
+    const trapName = trapsById.value.get(section.trapId).name
+    return `trap[${trapName}]`
   }
 
   return section.text
@@ -124,10 +125,9 @@ watch(unsortedSections, (rows) => {
   if (!rows) {
     return
   }
+
   sortedSections.value = sortSections(rows)
 })
-
-
 
 // Determines when the loading indicator will be shown in the table
 const loading = computed(() => sectionsStore.loading)

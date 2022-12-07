@@ -2,10 +2,10 @@
   <q-list class="text-body1">
     <q-expansion-item
         v-for="divination in divinations"
+        switch-toggle-side
         v-bind:key="divination.uid"
-        expand-separator
         :label="divination.name">
-      <q-card>
+      <q-card class="bg-blur">
         <q-card-section>
           {{ divination.content }}
         </q-card-section>

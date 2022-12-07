@@ -14,6 +14,8 @@ export const useTransactionsStore = defineStore('transactions', () => {
         fromUserId: data.fromUserId,
         currency: data.currency,
         notes: data.notes,
+        createdAtEpoch: data.createdAtEpoch,
+        createdByUserId: data.createdByUserId,
         id: id
       })
     })

@@ -4,17 +4,20 @@
       <q-expansion-item
           v-for="(chapter, chapterIdx) in chapters"
           v-bind:key="hashChapter(chapter)"
+          switch-toggle-side
           expand-separator
+          group
           :label="'Chapter ' + (chapterIdx + 1)">
         <q-expansion-item
             v-for="(section, sectionIdx) in chapter"
             v-bind:key="section.id"
             :header-inset-level="1"
+            switch-toggle-side
             expand-separator
             :label="'Section ' + (sectionIdx + 1)" >
             <q-card>
               <q-card-section>
-                {{ displayText(section) }}
+                {{ section }}
               </q-card-section>
             </q-card>
         </q-expansion-item>
@@ -25,20 +28,17 @@
 
 <script setup lang="ts">
 // Vue
-import { inject } from 'vue'
+import { ref } from 'vue'
 
-// Ours - model
-import { SectionType, hashChapter } from 'src/models'
+// Ours - Store
+import { useBooksStore } from 'src/stores/books'
 
-defineProps(['chapters'])
+// Ours - Model
+import { hashChapter } from 'src/models/books'
 
-// TODO: DRY this up
-const trapsById = inject('trapsById')
-const displayText = (section: Section) => {
-  if (section.type == SectionType.Trap) {
-    return trapsById.value.get(section.trapId).content
-  }
+const props = defineProps(['bookId'])
 
-  return section.text
-}
+const chapters = ref([])
+const booksStore = useBooksStore()
+booksStore.getChapters(props.bookId).then((fetchedChapters) => chapters.value = fetchedChapters)
 </script>

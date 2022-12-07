@@ -19,12 +19,14 @@ const routes: RouteRecordRaw[] = [
       { path: 'auth', component: () => import('pages/AuthPage.vue') },
       {
         path: 'player',
+        component: () => import('layouts/PlayerLayout.vue'),
         children: [
           { path: '', component: () => import('pages/player/IndexPage.vue') },
         ]
       },
       {
         path: 'gm',
+        component: () => import('layouts/GMLayout.vue'),
         children: [
           { path: '', component: () => import('pages/gm/IndexPage.vue') },
           { path: 'books/:id', component: () => import('pages/gm/BookPage.vue') }
