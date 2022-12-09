@@ -13,6 +13,7 @@ import { Model } from 'src/models'
 export const makeCrudActions = <T extends Model>(collectionPath: string, settings: {
   refresh?: () => void,
   map: (id: string, data: DocumentData) => T
+  after?: (models: T[]) => void
 }) => {
   const loading = ref(false)
   const items = ref<T[]>([]) as Ref<T[]>
@@ -40,6 +41,10 @@ export const makeCrudActions = <T extends Model>(collectionPath: string, setting
       })
 
       loading.value = false
+    }).then(() => {
+      if (settings.after) {
+        settings.after(items.value)
+      }
     })
   }
   

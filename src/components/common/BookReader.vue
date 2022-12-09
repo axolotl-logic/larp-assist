@@ -28,17 +28,18 @@
 
 <script setup lang="ts">
 // Vue
-import { ref } from 'vue'
+import { computed } from 'vue'
 
 // Ours - Store
-import { useBooksStore } from 'src/stores/books'
+import { useSectionsStore } from 'src/stores/sections'
 
 // Ours - Model
 import { hashChapter } from 'src/models/books'
 
 const props = defineProps(['bookId'])
 
-const chapters = ref([])
-const booksStore = useBooksStore()
-booksStore.getChapters(props.bookId).then((fetchedChapters) => chapters.value = fetchedChapters)
+const sectionsStore = useSectionsStore()
+sectionsStore.refresh()
+
+const chapters = computed(() => sectionsStore.chaptersByBookId.get(props.bookId) || [])
 </script>
