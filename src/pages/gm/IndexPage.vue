@@ -5,6 +5,7 @@
   <MarketCrudTable/>
   <BookCrudTable/>
   <TrapCrudTable/>
+  <CharacterCrudTable/>
 </template>
 
 <script setup lang="ts">
@@ -17,6 +18,7 @@ import DivinationCrudTable from 'components/gm/DivinationCrudTable.vue'
 import MarketCrudTable from 'components/gm/MarketCrudTable.vue'
 import BookCrudTable from 'components/gm/BookCrudTable.vue'
 import TrapCrudTable from 'components/gm/TrapCrudTable.vue'
+import CharacterCrudTable from 'components/gm/CharacterCrudTable.vue'
 
 // Ours - Store
 import { useUserStore } from 'stores/user'

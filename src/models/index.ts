@@ -2,6 +2,11 @@ export interface Model {
   id: string
 }
 
+export interface Character extends Model {
+  name: string
+  notes: string
+}
+
 export interface Trap extends Model {
   name: string
   content: string
