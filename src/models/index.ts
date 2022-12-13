@@ -1,50 +1,49 @@
 export interface Model {
-  id: string
+  id: string;
 }
 
 export interface Character extends Model {
-  name: string
-  notes: string
+  name: string;
+  notes: string;
 }
 
 export interface Trap extends Model {
-  name: string
-  content: string
+  name: string;
+  content: string;
 }
 
 export interface Market extends Model {
-  name: string
-  userIds: Array<string>
-  currencyId: string
+  name: string;
+  characterIds: Array<string>;
+  currencyId: string;
 }
 
 export interface Currency extends Model {
-  name: string
-  userIds: Array<string>
+  name: string;
+  characterIds: Array<string>;
 }
 
 export interface Divination extends Model {
-  content: string
-  name: string
-  userId: string
+  content: string;
+  name: string;
+  characterId: string;
 }
 
 export interface Motd extends Model {
-  content: string
-  userId: string
+  content: string;
+  characterId: string;
 }
 
 export interface UserPreference {
-  userId: string
-  name: string
+  name: string;
 }
 
 export interface Transaction extends Model {
-  amount: number
-  toUserId: string
-  fromUserId: string
-  currency: string
-  createdByUserId: string
-  createdAtEpoch: number 
-  notes: string
+  amount: number;
+  toCharacterId: string;
+  fromCharacterId: string;
+  currency: string;
+  createdByCharacterId: string;
+  createdAtEpoch: number;
+  notes: string;
 }

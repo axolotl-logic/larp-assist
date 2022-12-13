@@ -21,26 +21,9 @@ function getSignedOutUser() {
 export const useUserStore = defineStore('user', {
   state: () => ({
     user: useStorage('user', getSignedOutUser()),
-    userNames: new Map<string, string>
   }),
 
   actions: {
-    fetchUserNames(): Promise<Map<string, string>> {
-      const db = getFirestore()
-      
-      return getDocs(collection(db, 'userPreferences')).then(docs => {
-        this.userNames = new Map<string, string>()
-        docs.forEach(doc => {
-          const prefData = doc.data()
-          if (prefData) {
-            this.userNames.set(doc.id, prefData.name)
-          }
-        })
-        
-        return this.userNames
-      })
-    },
-    
     signOut(): void {
       this.user = getSignedOutUser()
     },

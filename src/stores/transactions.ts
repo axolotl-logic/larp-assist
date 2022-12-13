@@ -1,23 +1,23 @@
 // Pinia data store
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 // Ours
-import { makeCrudActions } from 'stores/firestore'
-import { Transaction } from 'src/models'
+import { useFirestoreCollection } from 'stores/firestore';
+import { Transaction } from 'src/models';
 
 export const useTransactionsStore = defineStore('transactions', () => {
   return {
-    ...makeCrudActions<Transaction>('transactions', {
+    ...useFirestoreCollection<Transaction>('transactions', {
       map: (id, data) => ({
         amount: data.amount,
-        toUserId: data.toUserId || '',
-        fromUserId: data.fromUserId || '',
+        toCharacterId: data.toCharacterId || '',
+        fromCharacterId: data.fromCharacterId || '',
         currency: data.currency,
         notes: data.notes,
         createdAtEpoch: data.createdAtEpoch,
-        createdByUserId: data.createdByUserId,
-        id: id
-      })
-    })
-  }
-})
+        createdByCharacterId: data.createdByCharacterId,
+        id: id,
+      }),
+    }),
+  };
+});

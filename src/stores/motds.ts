@@ -1,18 +1,18 @@
 // Pinia data store
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 // Ours
-import { makeCrudActions } from 'stores/firestore'
-import { Motd } from 'src/models'
+import { useFirestoreCollection } from 'stores/firestore';
+import { Motd } from 'src/models';
 
 export const useMotdsStore = defineStore('motds', () => {
   return {
-    ...makeCrudActions<Motd>('motds', {
+    ...useFirestoreCollection<Motd>('motds', {
       map: (id, data) => ({
         content: data.content,
-        userId: data.userId || '',
+        characterId: data.characterId || '',
         id: id,
-      })
-    })
-  }
-})
+      }),
+    }),
+  };
+});

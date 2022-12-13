@@ -2,12 +2,12 @@
 import { defineStore } from 'pinia'
 
 // Ours
-import { makeCrudActions } from 'stores/firestore'
+import { useFirestoreCollection } from 'stores/firestore'
 import { Trap } from 'src/models'
 
 export const useTrapsStore = defineStore('traps', () => {
   return {
-    ...makeCrudActions<Trap>('traps', {
+    ...useFirestoreCollection<Trap>('traps', {
       map: (id, data) => ({
         name: data.name,
         content: data.content,

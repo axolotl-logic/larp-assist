@@ -21,8 +21,8 @@
           label="Currency"
           v-model="formData.currency"
           :rules="[$rules.required()]"/>
-      <CharacterSelect label="To" v-model="formData.toUserId"/>
-      <CharacterSelect label="From" v-model="formData.fromUserId"/>
+      <CharacterSelect label="To" v-model="formData.toCharacterId"/>
+      <CharacterSelect label="From" v-model="formData.fromCharacterId"/>
       <q-input
           outlined
           type="textarea"
@@ -47,15 +47,15 @@ import CharacterSelect from 'components/common/CharacterSelect.vue'
 
 const columns = [
   {
-    name: 'toUserName',
-    field: 'toUserName',
+    name: 'toCharacterName',
+    field: 'toCharacterName',
     label: 'To',
     align: 'left',
     sortable: true
   },
   {
-    name: 'fromUserName',
-    field: 'fromUserName',
+    name: 'fromCharacterName',
+    field: 'fromCharacterName',
     label: 'From',
     align: 'left',
     sortable: true
@@ -102,13 +102,13 @@ transactionsStore.refresh()
 const onDelete = transaction => transactionsStore.delete(transaction.id)
 const onSubmit = () => transactionsStore.createOrUpdate(formData.value)
 
-// Usernames provided upstream
-const userNames = inject('userNames')
+// Character names provided upstream
+const characterNames = inject('characterNames')
 
 // The rows we're displaying. We add in the character names.
 const transactions = computed(() => transactionsStore.items.map((transaction) => ({
-  toUserName: userNames.value.get(transaction.toUserId),
-  fromUserName: userNames.value.get(transaction.fromUserId),
+  toCharacterName: characterNames.value.get(transaction.toCharacterId),
+  fromCharacterName: characterNames.value.get(transaction.fromCharacterId),
   ...transaction
 })))
 

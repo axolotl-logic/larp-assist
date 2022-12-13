@@ -22,7 +22,7 @@
 
       <CharacterMultiSelect
           label="Characters"
-          v-model="formData.userIds"/>
+          v-model="formData.characterIds"/>
     </DialogForm>
   </div>
 </template>
@@ -56,10 +56,10 @@ const columns = [
     sortable: true
   },
   {
-    name: 'userNames',
-    field: 'userNames',
+    name: 'characterNames',
+    field: 'characterNames',
     label: 'Characters',
-    format: (userNames) => userNames.join(', '),
+    format: (characterNames) => characterNames.join(', '),
     align: 'left',
     sortable: true
   },
@@ -84,13 +84,13 @@ marketsStore.refresh()
 const onDelete = market => marketsStore.delete(market.id)
 const onSubmit = () => marketsStore.createOrUpdate(formData.value)
 
-// Usernames provided upstream
-const userNames = inject('userNames')
+// Character and currency names provided upstream
+const characterNames = inject('characterNames')
 const currencyNames = inject('currencyNames')
 
 // The rows we're displaying. We add in the character names.
 const markets = computed(() => marketsStore.items.map((market) => ({
-  userNames: (market.userIds || []).map(id => userNames.value.get(id)),
+  characterNames: (market.characterIds || []).map(id => characterNames.value.get(id)),
   currencyName: currencyNames.value.get(market.currencyId),
   ...market
 })))

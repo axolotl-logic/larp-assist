@@ -17,7 +17,7 @@
           v-model="formData.content"
           :autofocus="true"
           :rules="[$rules.required()]"/>
-      <CharacterSelect label="Character" v-model="formData.userId" />
+      <CharacterSelect label="Character" v-model="formData.characterId" />
     </DialogForm>
   </div>
 </template>
@@ -44,11 +44,11 @@ const columns = [
     sortable: true
   },
   {
-    name: 'userName',
+    name: 'characterName',
     required: false,
     label: 'Character',
     align: 'left',
-    field: 'userName',
+    field: 'characterName',
     sortable: true
   },
   { name: 'actions', label: 'Action' }
@@ -64,7 +64,7 @@ const dialog = ref(null)
 const onEdit = (motd = {}) => {
   formData.value = {
     id: motd.id,
-    userId: motd.userId || '',
+    characterId: motd.characterId || '',
     content: motd.content
   }
   dialog.value.show()
@@ -76,12 +76,12 @@ motdsStore.refresh()
 const onDelete = motd => motdsStore.delete(motd.id)
 const onSubmit = () => motdsStore.createOrUpdate(formData.value)
 
-// Usernames provided upstream
-const userNames = inject('userNames')
+// Character names provided upstream
+const characterNames = inject('characterNames')
 
 // The rows we're displaying. We add in the character names.
 const motds = computed(() => motdsStore.items.map((motd) => ({
-  userName: userNames.value.get(motd.userId),
+  characterName: characterNames.value.get(motd.characterId),
   ...motd
 })))
 

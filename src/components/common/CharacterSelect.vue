@@ -5,7 +5,7 @@
       map-options
       emit-value
       @input="$emit('update:modelValue', $event.target.value)"
-      :options="userNameOptions"
+      :options="characterNameOptions"
       :label="label" />
 </template>
 
@@ -16,14 +16,14 @@ defineProps({
   label: String
 })
 
-const userNames = inject('userNames')
+const characterNames = inject('characterNames')
 
-const userNameOptions = computed(() => {
+const characterNameOptions = computed(() => {
   const options = []
-  userNames.value.forEach((name, userId) =>
+  characterNames.value.forEach((name, characterId) =>
     options.push({
       label: name,
-      value: userId
+      value: characterId
     })
   )
 

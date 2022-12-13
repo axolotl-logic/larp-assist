@@ -5,14 +5,14 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 // Ours
-import { makeCrudActions } from 'stores/firestore'
+import { useFirestoreCollection } from 'stores/firestore'
 import { Currency } from 'src/models'
 
 export const useCurrenciesStore = defineStore('currencies', () => {
   const currencyNames = ref(new Map<string, string>())
   return {
     currencyNames,
-    ...makeCrudActions<Currency>('currencies', {
+    ...useFirestoreCollection<Currency>('currencies', {
       refresh: () => {
         currencyNames.value = new Map()
       },
@@ -20,7 +20,7 @@ export const useCurrenciesStore = defineStore('currencies', () => {
         currencyNames.value.set(id, data.name as string)
         return {
           name: data.name,
-          userIds: data.userIds || [],
+          characterIds: data.characterIds || [],
           id: id,
         }
       },

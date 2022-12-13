@@ -5,7 +5,7 @@ import { ref, Ref } from 'vue'
 import { defineStore } from 'pinia'
 
 // Ours
-import { makeCrudActions } from 'stores/firestore'
+import { useFirestoreCollection } from 'stores/firestore'
 import { Section, groupSectionsByChapter, SectionType } from 'src/models/books'
 import { useTrapsStore } from 'stores/traps'
 
@@ -14,7 +14,7 @@ export const useSectionsStore = defineStore('sections', () => {
   const chaptersByBookId = ref(new Map<string, string[][]>)
 
 
-  const crud = makeCrudActions<Section>('sections', {
+  const crud = useFirestoreCollection<Section>('sections', {
     refresh: () => {
       sectionsByBookId.value = new Map()
       chaptersByBookId.value = new Map()

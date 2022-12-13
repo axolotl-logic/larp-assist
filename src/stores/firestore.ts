@@ -10,7 +10,7 @@ import {
 // Ours
 import { Model } from 'src/models'
 
-export const makeCrudActions = <T extends Model>(collectionPath: string, settings: {
+export const useFirestoreCollection = <T extends Model>(collectionPath: string, settings: {
   refresh?: () => void,
   map: (id: string, data: DocumentData) => T
   after?: (models: T[]) => void

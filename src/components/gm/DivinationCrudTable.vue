@@ -22,7 +22,7 @@
           v-model="formData.content"
           :rules="[$rules.required()]"/>
       <CharacterSelect
-          v-model="formData.userId"
+          v-model="formData.characterId"
           label="Character" />
     </DialogForm>
   </div>
@@ -50,11 +50,11 @@ const columns = [
     sortable: true
   },
   {
-    name: 'userName',
+    name: 'characterName',
     required: false,
     label: 'Character',
     align: 'left',
-    field: 'userName',
+    field: 'characterName',
     sortable: true
   },
   {
@@ -80,7 +80,7 @@ const onEdit = (divination = {}) => {
     id: divination.id,
     content: divination.content,
     name: divination.name,
-    userId: divination.userId || '',
+    characterId: divination.characterId || '',
   }
   dialog.value.show()
 }
@@ -91,12 +91,12 @@ divinationsStore.refresh()
 const onDelete = divination => divinationsStore.delete(divination.id)
 const onSubmit = () => divinationsStore.createOrUpdate(formData.value)
 
-// Usernames provided upstream
-const userNames = inject('userNames')
+// Character names provided upstream
+const characterNames = inject('characterNames')
 
 // The rows we're displaying. We add in the character names.
 const divinations = computed(() => divinationsStore.items.map((divination) => ({
-  userName: userNames.value.get(divination.userId),
+  characterName: characterNames.value.get(divination.characterId),
   ...divination
 })))
 

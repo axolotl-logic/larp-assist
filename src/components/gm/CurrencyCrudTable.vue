@@ -18,7 +18,7 @@
 
       <CharacterMultiSelect
           label="Characters"
-          v-model="formData.userIds"/>
+          v-model="formData.characterIds"/>
     </DialogForm>
   </div>
 </template>
@@ -44,10 +44,10 @@ const columns = [
     sortable: true
   },
   {
-    name: 'userNames',
-    field: 'userNames',
+    name: 'characterNames',
+    field: 'characterNames',
     label: 'Characters',
-    format: (userNames) => userNames.join(', '),
+    format: (characterNames) => characterNames.join(', '),
     align: 'left',
     sortable: true
   },
@@ -73,11 +73,11 @@ const onDelete = currency => currenciesStore.delete(currency.id)
 const onSubmit = () => currenciesStore.createOrUpdate(formData.value)
 
 // Usernames provided upstream
-const userNames = inject('userNames')
+const characterNames = inject('characterNames')
 
 // The rows we're displaying. We add in the character names.
 const currencies = computed(() => currenciesStore.items.map((currency) => ({
-  userNames: (currency.userIds || []).map(id => userNames.value.get(id)),
+  characterNames: (currency.characterIds || []).map(id => characterNames.value.get(id)),
   ...currency
 })))
 
