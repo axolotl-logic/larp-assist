@@ -2,7 +2,7 @@
   <q-dialog ref="dialog">
     <q-card class="q-dialog-plugin">
       <q-card-section>
-        <BookReader :bookId="book.id"/>
+        <BookReader :bookId="book.id" />
       </q-card-section>
 
       <q-card-actions align="right">
@@ -13,8 +13,19 @@
   <div class="col">
     <q-form @submit="onRead">
       <div class="row lookup-form">
-        <q-input outlined v-model="bookCode" :rules="[validateCode]" label="Book Code" class="col" />
-        <q-btn color="primary" label="Read" type="submit" class="col-auto q-ml-sm"/>
+        <q-input
+          outlined
+          v-model="bookCode"
+          :rules="[validateCode]"
+          label="Book Code"
+          class="col"
+        />
+        <q-btn
+          color="primary"
+          label="Read"
+          type="submit"
+          class="col-auto q-ml-sm"
+        />
       </div>
     </q-form>
     <div class="col text-body1" v-if="book">
@@ -43,34 +54,36 @@
 
 <script setup lang="ts">
 // Vue
-import { ref, computed } from 'vue'
+import { ref, computed } from 'vue';
 
 // Ours - stores
-import { useBooksStore } from 'stores/books'
+import { useBooksStore } from 'stores/books';
 
 // Ours - components
-import BookReader from 'components/common/BookReader.vue'
+import BookReader from 'components/common/BookReader.vue';
 
-const dialog = ref()
+const dialog = ref();
 
-const bookCode = ref('')
+const bookCode = ref('');
 
 const onCancelClick = () => {
-  dialog.value.hide()
-}
+  dialog.value.hide();
+};
 
-const booksStore = useBooksStore()
-booksStore.refresh()
+const booksStore = useBooksStore();
+booksStore.refresh();
 
-const book = computed(() => booksStore.items.find((book) => book.code == bookCode.value))
+const book = computed(() =>
+  booksStore.items.find((book) => book.code == bookCode.value)
+);
 
 const onRead = () => {
   if (book.value) {
-    dialog.value.show()
+    dialog.value.show();
   }
-}
+};
 
 const validateCode = (val: string) => {
-  return book.value || val.length == 0 || 'book not found'
-}
+  return book.value || val.length == 0 || 'book not found';
+};
 </script>

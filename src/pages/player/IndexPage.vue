@@ -1,23 +1,4 @@
-<template>
-  <div class="text-h2 q-mb-lg heading text-wizard text-center">
-    The journal of {{ name }}
-  </div>
-  <TitledCard class="q-mb-lg" title="Missives">
-    <MotdsList v-if="motds.length > 0" :motds="motds" />
-    <div v-else>No MOTDs</div>
-  </TitledCard>
-
-  <TitledCard class="q-mb-lg" title="Divinations">
-    <DivinationsList v-if="divinations.length > 0" :divinations="divinations" />
-    <div v-else>No MOTDs</div>
-  </TitledCard>
-  <TitledCard class="q-mb-lg" title="Library">
-    <BookLookup />
-  </TitledCard>
-  <TitledCard class="q-mb-lg" title="Currency">
-    <CurrencyList />
-  </TitledCard>
-</template>
+<template>a</template>
 
 <style lang="scss">
 .heading {
@@ -56,6 +37,7 @@ provide('characterNames', computed(charactersStore.getCharacterNames));
 const name = computed(
   () => charactersStore.getCharacter(userStore.user.characterId)?.name
 );
+
 const userStore = useUserStore();
 
 const currenciesStore = useCurrenciesStore();
@@ -92,8 +74,6 @@ const motds = computed(() =>
 );
 
 const divinations = computed(() =>
-  divinationsStore.items.filter(
-    (divination) => !divination.userId || divination.userId == userStore.user.id
-  )
+  divinationsStore.getCharacterDivinations(userStore.user.characterId)
 );
 </script>

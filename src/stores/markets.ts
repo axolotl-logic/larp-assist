@@ -22,5 +22,9 @@ export const useMarketsStore = defineStore('markets', () => {
         market.characterIds.includes(characterId)
       );
     },
+    getMarketNames: () =>
+      new Map<string, string>(
+        collection.items.value.map(({ id, name }) => [id, name])
+      ),
   };
 });

@@ -17,19 +17,18 @@ export const useCharactersStore = defineStore('characters', () => {
 
   return {
     ...collection,
-    getCharacterNames: () => {
-      const value = new Map<string, string>(
-        collection.items.value.map(({ id, name }) => [id, name])
-      );
-      console.log(value);
 
-      return value;
-    },
+    getCharacterNames: () =>
+      new Map<string, string>(
+        collection.items.value.map(({ id, name }) => [id, name])
+      ),
+
     checkCode: (code: string) => {
       return collection.items.value.some(
         (character) => character.code === code
       );
     },
+
     getCharacter(id: string) {
       return collection.items.value.find((character) => character.id === id);
     },

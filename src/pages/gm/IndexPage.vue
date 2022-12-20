@@ -23,7 +23,10 @@ import CharacterCrudTable from 'components/gm/CharacterCrudTable.vue';
 // Ours - Store
 import { useCharactersStore } from 'stores/characters';
 import { useCurrenciesStore } from 'stores/currencies';
+import { useUserStore } from 'stores/user';
 import { useTrapsStore } from 'stores/traps';
+
+const userStore = useUserStore();
 
 const charactersStore = useCharactersStore();
 charactersStore.refresh();
@@ -34,7 +37,7 @@ provide(
 
 const currenciesStore = useCurrenciesStore();
 currenciesStore.refresh();
-provide('currencyNames', computed(currenciesStore.getCharacterCurrencyNames));
+provide('currencyNames', computed(currenciesStore.getCurrencyNames));
 
 const trapsStore = useTrapsStore();
 trapsStore.refresh();
