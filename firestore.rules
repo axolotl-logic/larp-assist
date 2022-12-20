@@ -2,12 +2,12 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /motds/{motdId} {
-      allow read: if isResourceUserOrGm();
+      allow read: if isSignedIn();
       allow write: if isGm()
     }
 
     match /markets/{marketId} {
-      allow read: if isAnyResourceUserOrGm();
+      allow read: if isSignedIn();
       allow write: if isGm()
     }
 
@@ -27,31 +27,27 @@ service cloud.firestore {
     }
 
     match /currencies/{currencyId} {
-      allow read: if isAnyResourceUserOrGm();
-      allow write: if isGm();
-    }
-
-    match /divinations/{divinationId} {
-      allow read: if isResourceUserOrGm();
-      allow write: if isGm();
-    }
-
-    match /transactions/{txId} {
-      allow read: if isGm() || request.auth.uid in [resource.data.toUserId, resource.data.fromUserId];
-      allow write: if isGm() 
-      allow create: if isGm() || request.auth.uid == request.resource.data.createdByUserId
-    }
-
-    match /characters/{characterId} {
       allow read: if isSignedIn();
       allow write: if isGm();
     }
 
-    match /users/{userId} {
-      allow read: if isUserOrGm(userId);
+    match /divinations/{divinationId} {
+      allow read: if isSignedIn();
+      allow write: if isGm();
     }
 
-    match /userPreferences/{userId} {
+    match /transactions/{txId} {
+      allow read: if isGm() || isSignedIn();
+      allow write: if isGm()
+      allow create: if isGm() || request.auth.uid == request.resource.data.createdByUserId
+    }
+
+    match /characters/{characterId} {
+      allow read;
+      allow write: if isGm();
+    }
+
+    match /users/{userId} {
       allow write: if isUserOrGm(userId);
       allow read: if isSignedIn();
     }

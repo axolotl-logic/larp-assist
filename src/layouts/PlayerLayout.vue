@@ -22,18 +22,18 @@
 
 <script setup lang="ts">
 // Quasar (plugins)
-import { useQuasar } from 'quasar'
+import { useQuasar } from 'quasar';
 
 // Firebase
 import { signOut, getAuth } from 'firebase/auth';
 
 // Ours - Stores
 
-const $q = useQuasar()
+const $q = useQuasar();
 
-const onSignOut = () =>{
-  signOut(getAuth()).catch(err => {
-    $q.notify({type: 'negative', message: err})
-  })
-}
+const onSignOut = () => {
+  signOut(getAuth()).catch((err) => {
+    $q.notify({ type: 'negative', message: err });
+  });
+};
 </script>

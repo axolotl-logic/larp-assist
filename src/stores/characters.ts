@@ -10,15 +10,34 @@ export const useCharactersStore = defineStore('characters', () => {
     map: (id, data) => ({
       notes: data.notes,
       name: data.name,
+      code: data.code,
       id: id,
     }),
   });
 
   return {
     ...collection,
-    getCharacterNames: () =>
-      new Map<string, string>(
+    getCharacterNames: () => {
+      const value = new Map<string, string>(
         collection.items.value.map(({ id, name }) => [id, name])
-      ),
+      );
+      console.log(value);
+
+      return value;
+    },
+    checkCode: (code: string) => {
+      return collection.items.value.some(
+        (character) => character.code === code
+      );
+    },
+    getCharacter(id: string) {
+      return collection.items.value.find((character) => character.id === id);
+    },
+
+    getCharacterFromCode: (code: string) => {
+      return collection.items.value.find(
+        (character) => character.code === code
+      );
+    },
   };
 });

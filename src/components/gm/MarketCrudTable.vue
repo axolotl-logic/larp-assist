@@ -1,44 +1,45 @@
 <template>
   <div class="q-pa-md">
     <CrudTable
-        :columns="columns"
-        :rows="markets"
-        :loading="loading"
-        title="Markets"
-        @add="onEdit"
-        @edit="onEdit"
-        @delete="onDelete"/>
+      :columns="columns"
+      :rows="markets"
+      :loading="loading"
+      title="Markets"
+      @add="onEdit"
+      @edit="onEdit"
+      @delete="onDelete"
+    />
 
     <DialogForm ref="dialog" @submit="onSubmit">
       <q-input
         outlined
         label="name"
         v-model="formData.name"
-        :rules="[$rules.required()]"/>
+        :rules="[$rules.required()]"
+      />
 
-      <CurrencySelect
-          label="Currency"
-          v-model="formData.currencyId"/>
+      <CurrencySelect label="Currency" v-model="formData.currencyId" />
 
       <CharacterMultiSelect
-          label="Characters"
-          v-model="formData.characterIds"/>
+        label="Characters"
+        v-model="formData.characterIds"
+      />
     </DialogForm>
   </div>
 </template>
 
 <script setup lang="ts">
 // Vue
-import { computed, ref, inject } from 'vue'
+import { computed, ref, inject } from 'vue';
 
 // Ours - stores
-import { useMarketsStore } from 'stores/markets'
+import { useMarketsStore } from 'stores/markets';
 
 // Ours - Components
-import CrudTable from 'components/common/CrudTable.vue'
-import DialogForm from 'components/common/DialogForm.vue'
-import CharacterMultiSelect from 'components/common/CharacterMultiSelect.vue'
-import CurrencySelect from 'components/common/CurrencySelect.vue'
+import CrudTable from 'components/common/CrudTable.vue';
+import DialogForm from 'components/common/DialogForm.vue';
+import CharacterMultiSelect from 'components/common/CharacterMultiSelect.vue';
+import CurrencySelect from 'components/common/CurrencySelect.vue';
 
 const columns = [
   {
@@ -46,14 +47,14 @@ const columns = [
     field: 'name',
     label: 'Name',
     align: 'left',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'currency',
     field: 'currencyName',
     label: 'Currency',
     align: 'left',
-    sortable: true
+    sortable: true,
   },
   {
     name: 'characterNames',
@@ -61,40 +62,43 @@ const columns = [
     label: 'Characters',
     format: (characterNames) => characterNames.join(', '),
     align: 'left',
-    sortable: true
+    sortable: true,
   },
-  { name: 'actions', label: 'Action' }
-]
+];
 
 // The data backing the form
-const formData = ref()
+const formData = ref();
 
 // The form dialog for editing/creating
-const dialog = ref(null)
+const dialog = ref(null);
 
 // The callback when you click edit or add
-const onEdit = market => {
-  formData.value = {...market}
-  dialog.value.show()
-}
+const onEdit = (market) => {
+  formData.value = { ...market };
+  dialog.value.show();
+};
 
-const marketsStore = useMarketsStore()
-marketsStore.refresh()
+const marketsStore = useMarketsStore();
+marketsStore.refresh();
 
-const onDelete = market => marketsStore.delete(market.id)
-const onSubmit = () => marketsStore.createOrUpdate(formData.value)
+const onDelete = (market) => marketsStore.delete(market.id);
+const onSubmit = () => marketsStore.createOrUpdate(formData.value);
 
 // Character and currency names provided upstream
-const characterNames = inject('characterNames')
-const currencyNames = inject('currencyNames')
+const characterNames = inject('characterNames');
+const currencyNames = inject('currencyNames');
 
 // The rows we're displaying. We add in the character names.
-const markets = computed(() => marketsStore.items.map((market) => ({
-  characterNames: (market.characterIds || []).map(id => characterNames.value.get(id)),
-  currencyName: currencyNames.value.get(market.currencyId),
-  ...market
-})))
+const markets = computed(() =>
+  marketsStore.items.map((market) => ({
+    characterNames: (market.characterIds || []).map((id) =>
+      characterNames.value.get(id)
+    ),
+    currencyName: currencyNames.value.get(market.currencyId),
+    ...market,
+  }))
+);
 
 // Determines when the loading indicator will be shown in the table
-const loading = computed(() => marketsStore.loading)
+const loading = computed(() => marketsStore.loading);
 </script>

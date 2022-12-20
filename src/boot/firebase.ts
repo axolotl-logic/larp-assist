@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 import { boot } from 'quasar/wrappers'
 import { computed } from 'vue'
 
@@ -20,9 +21,11 @@ const config = {
 
 export default boot(({ app, router }) => {
   const firebaseApp = initializeApp(config);
+  const storage = getStorage(firebaseApp);
   const auth = getAuth(firebaseApp);
 
   app.config.globalProperties.$auth = auth;
+  app.config.globalProperties.$storage = storage;
   app.config.globalProperties.$db = getFirestore(firebaseApp);
   const userStore = useUserStore()
   app.config.globalProperties.$user = computed(() => userStore.user)

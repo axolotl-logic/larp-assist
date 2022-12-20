@@ -20,6 +20,13 @@
       />
       <q-input
         outlined
+        label="Registration Code"
+        v-model="formData.code"
+        :autofocus="true"
+        :rules="[$rules.required()]"
+      />
+      <q-input
+        outlined
         label="Notes"
         type="textarea"
         v-model="formData.notes"
@@ -40,17 +47,14 @@ import CrudTable from 'components/common/CrudTable.vue';
 import DialogForm from 'components/common/DialogForm.vue';
 import { Character } from 'src/models';
 
-const columns = [
-  ...['name', 'notes'].map((name) => ({
-    name: name,
-    field: name,
-    label: name[0].toUpperCase() + name.slice(1),
-    required: true,
-    align: 'left',
-    sortable: true,
-  })),
-  { name: 'actions', label: 'Action' },
-];
+const columns = ['name', 'notes', 'code'].map((name) => ({
+  name: name,
+  field: name,
+  label: name[0].toUpperCase() + name.slice(1),
+  required: true,
+  align: 'left',
+  sortable: true,
+}));
 
 // The data backing the form
 const formData = ref();
@@ -62,6 +66,8 @@ const dialog = ref();
 const onEdit = (character = {}) => {
   formData.value = {
     id: character.id,
+    code:
+      character.code || Math.random().toString(36).slice(2, 7).toLowerCase(),
     name: character.name || '',
     notes: character.notes || '',
   };

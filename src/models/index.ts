@@ -2,8 +2,15 @@ export interface Model {
   id: string;
 }
 
+export interface File extends Model {
+  name: string;
+  url: string;
+  common: boolean;
+}
+
 export interface Character extends Model {
   name: string;
+  code: string;
   notes: string;
 }
 

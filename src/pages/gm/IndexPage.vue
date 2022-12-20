@@ -34,10 +34,7 @@ provide(
 
 const currenciesStore = useCurrenciesStore();
 currenciesStore.refresh();
-provide(
-  'currencyNames',
-  computed(() => currenciesStore.currencyNames)
-);
+provide('currencyNames', computed(currenciesStore.getCharacterCurrencyNames));
 
 const trapsStore = useTrapsStore();
 trapsStore.refresh();
