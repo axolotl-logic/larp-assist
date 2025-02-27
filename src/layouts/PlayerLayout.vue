@@ -65,7 +65,7 @@ import { computed } from 'vue';
 import { useQuasar } from 'quasar';
 
 // Firebase
-import { signOut, getAuth } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 
 // Ours - Stores
 import { useCharactersStore } from 'stores/characters';
@@ -83,6 +83,6 @@ const userStore = useUserStore();
 const charactersStore = useCharactersStore();
 charactersStore.refresh();
 const name = computed(
-  () => charactersStore.getCharacter(userStore.user.characterId)?.name
+  () => charactersStore.getCharacter(userStore.user.characterId)?.name,
 );
 </script>

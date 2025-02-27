@@ -31,15 +31,15 @@
 
 <script setup lang="ts">
 // Vue
-import { computed, ref, inject } from 'vue';
+import { computed, inject, ref } from 'vue';
 
 // Ours - stores
 import { useDivinationsStore } from 'stores/divinations';
 
 // Ours - Components
+import CharacterSelect from 'components/common/CharacterSelect.vue';
 import CrudTable from 'components/common/CrudTable.vue';
 import DialogForm from 'components/common/DialogForm.vue';
-import CharacterSelect from 'components/common/CharacterSelect.vue';
 
 const columns = [
   {
@@ -99,7 +99,7 @@ const divinations = computed(() =>
   divinationsStore.items.map((divination) => ({
     characterName: characterNames.value.get(divination.characterId),
     ...divination,
-  }))
+  })),
 );
 
 // Determines when the loading indicator will be shown in the table

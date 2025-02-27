@@ -3,18 +3,18 @@ import { ref, Ref } from 'vue';
 
 // Firebase/Firestore
 import {
-  getFirestore,
-  getDocs,
-  collection,
-  updateDoc,
-  doc,
   addDoc,
+  collection,
   deleteDoc,
+  doc,
   DocumentData,
+  getDocs,
+  getFirestore,
+  updateDoc,
 } from 'firebase/firestore';
 
 // Ours
-import { Model } from 'src/models';
+import { Model } from '~/models';
 
 export const useFirestoreCollection = <T extends Model>(
   collectionPath: string,
@@ -22,7 +22,7 @@ export const useFirestoreCollection = <T extends Model>(
     refresh?: () => void;
     map: (id: string, data: DocumentData) => T;
     after?: (models: T[]) => void;
-  }
+  },
 ) => {
   const loading = ref(false);
   const items = ref<T[]>([]) as Ref<T[]>;

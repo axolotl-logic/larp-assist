@@ -11,7 +11,7 @@
           transaction.amount,
           ' ',
           transaction.currency,
-          ')'
+          ')',
         )
       "
       :caption="transaction.time"

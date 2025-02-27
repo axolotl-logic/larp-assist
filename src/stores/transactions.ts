@@ -2,8 +2,8 @@
 import { defineStore } from 'pinia';
 
 // Ours
-import { useFirestoreCollection } from 'stores/firestore';
-import { Transaction } from 'src/models';
+import { Transaction } from '~/models';
+import { useFirestoreCollection } from '~/stores/firestore';
 
 export const useTransactionsStore = defineStore('transactions', () => {
   return {

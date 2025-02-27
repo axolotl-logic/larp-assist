@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 // Vue
-import { computed, provide } from 'vue';
+import { computed } from 'vue';
 
 // Ours - Stores
 import { useDivinationsStore } from 'stores/divinations';
@@ -23,6 +23,6 @@ const divinationsStore = useDivinationsStore();
 divinationsStore.refresh();
 
 const divinations = computed(() =>
-  divinationsStore.getCharacterDivinations(userStore.user.characterId)
+  divinationsStore.getCharacterDivinations(userStore.user.characterId),
 );
 </script>

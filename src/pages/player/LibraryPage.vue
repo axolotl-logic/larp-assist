@@ -5,6 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import TitledCard from 'components/common/TitledCard.vue';
 import BookLookup from 'components/common/BookLookup.vue';
+import TitledCard from 'components/common/TitledCard.vue';
 </script>

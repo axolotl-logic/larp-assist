@@ -27,7 +27,7 @@
 import { useQuasar } from 'quasar';
 
 // Firebase
-import { signOut, getAuth } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 
 const $q = useQuasar();
 

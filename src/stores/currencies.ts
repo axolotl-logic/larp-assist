@@ -2,11 +2,10 @@
 import { defineStore } from 'pinia';
 
 // Vue
-import { ref } from 'vue';
 
 // Ours
-import { useFirestoreCollection } from 'stores/firestore';
-import { Currency } from 'src/models';
+import { Currency } from '~/models';
+import { useFirestoreCollection } from '~/stores/firestore';
 
 export const useCurrenciesStore = defineStore('currencies', () => {
   const collection = useFirestoreCollection<Currency>('currencies', {
@@ -26,7 +25,7 @@ export const useCurrenciesStore = defineStore('currencies', () => {
     },
     getCurrencyNames: () =>
       new Map<string, string>(
-        collection.items.value.map(({ id, name }) => [id, name])
+        collection.items.value.map(({ id, name }) => [id, name]),
       ),
   };
 });

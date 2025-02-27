@@ -10,13 +10,13 @@
 
 <script setup lang="ts">
 // Vue
-import { provide, computed } from 'vue';
+import { computed, provide } from 'vue';
 import { useRoute } from 'vue-router';
 
 // Ours - Components
+import BookReader from 'components/common/BookReader.vue';
 import SectionCrudTable from 'components/gm/SectionCrudTable.vue';
 import TrapCrudTable from 'components/gm/TrapCrudTable.vue';
-import BookReader from 'components/common/BookReader.vue';
 
 // Ours - Store
 import { useBooksStore } from 'stores/books';
@@ -33,6 +33,6 @@ trapsStore.refresh();
 // associate traps with this book
 provide(
   'trapsById',
-  computed(() => trapsStore.itemsById)
+  computed(() => trapsStore.itemsById),
 );
 </script>

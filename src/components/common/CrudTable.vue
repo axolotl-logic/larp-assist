@@ -1,33 +1,11 @@
 <template>
   <div class="q-pa-md">
-    <q-table
-      :rows="rows || []"
-      :columns="columns"
-      :loading="loading"
-      wrap-cells
-      row-key="id"
-      binary-state-sort
-    >
+    <q-table :rows="rows || []" :columns="columns" :loading="loading" wrap-cells row-key="id" binary-state-sort>
       <template v-slot:top>
         <div class="col">
           <div class="q-table__title">{{ title }}</div>
-          <q-btn
-            round
-            size="xs"
-            class="q-mr-sm"
-            color="secondary"
-            icon="add"
-            @click="onAdd"
-          />
-          <q-btn
-            round
-            size="xs"
-            class="q-mr-sm"
-            color="primary"
-            icon="archive"
-            no-caps
-            @click="onExport"
-          />
+          <q-btn round size="xs" class="q-mr-sm" color="secondary" icon="add" @click="onAdd" />
+          <q-btn round size="xs" class="q-mr-sm" color="primary" icon="archive" no-caps @click="onExport" />
         </div>
       </template>
       <template v-slot:body-cell-actions="props">
@@ -54,7 +32,7 @@ const props = defineProps(['columns', 'rows', 'title', 'loading']);
 const emit = defineEmits(['delete', 'edit', 'add']);
 
 const columns = computed(() =>
-  props.columns.concat({ name: 'actions', label: 'Action' })
+  props.columns.concat({ name: 'actions', label: 'Action' }),
 );
 
 const onEdit = (row) => emit('edit', row);
@@ -73,11 +51,9 @@ const onExport = () => {
               : row[col.field || col.name];
 
           return [label, value];
-        })
-    )
+        }),
+    ),
   );
-  console.dir(tableContents);
-
   const options = {
     fieldSeparator: ',',
     quoteStrings: '"',

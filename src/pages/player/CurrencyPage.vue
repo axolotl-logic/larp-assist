@@ -18,8 +18,8 @@ const currenciesStore = useCurrenciesStore();
 currenciesStore.refresh();
 const currencies = computed(() =>
   currenciesStore.items.filter((currency) =>
-    currency.characterIds.includes(userStore.user.characterId)
-  )
+    currency.characterIds.includes(userStore.user.characterId),
+  ),
 );
 provide('currencies', currencies);
 provide(
@@ -27,9 +27,9 @@ provide(
   computed(() => {
     const currencyNames = new Map();
     currencies.value.forEach((currency) =>
-      currencyNames.set(currency.id, currency.name)
+      currencyNames.set(currency.id, currency.name),
     );
     return currencyNames;
-  })
+  }),
 );
 </script>

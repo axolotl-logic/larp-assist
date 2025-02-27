@@ -5,7 +5,7 @@ import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core';
 
 // Firebase/Firestore
-import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 
 // Ours
 import { useCharactersStore } from './characters';
@@ -31,7 +31,7 @@ export const useUserStore = defineStore('user', {
 
     login(userId: string): Promise<void> {
       const charactersStore = useCharactersStore();
-      charactersStore.refresh;
+      charactersStore.refresh();
       const db = getFirestore();
       this.user.id = userId;
       return Promise.all([

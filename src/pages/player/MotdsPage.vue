@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 // Vue
-import { computed, provide } from 'vue';
+import { computed } from 'vue';
 
 // Ours - Stores
 import { useMotdsStore } from 'stores/motds';
@@ -24,7 +24,7 @@ const userStore = useUserStore();
 
 const motds = computed(() =>
   motdsStore.items.filter(
-    (motd) => motd.characterId === userStore.user.characterId
-  )
+    (motd) => motd.characterId === userStore.user.characterId,
+  ),
 );
 </script>

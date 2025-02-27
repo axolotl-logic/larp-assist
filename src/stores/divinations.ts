@@ -2,8 +2,8 @@
 import { defineStore } from 'pinia';
 
 // Ours
-import { useFirestoreCollection } from 'stores/firestore';
-import { Divination } from 'src/models';
+import { Divination } from '~/models';
+import { useFirestoreCollection } from '~/stores/firestore';
 
 export const useDivinationsStore = defineStore('divinations', () => {
   const collection = useFirestoreCollection<Divination>('divinations', {
@@ -21,7 +21,7 @@ export const useDivinationsStore = defineStore('divinations', () => {
     getCharacterDivinations: (characterId: string) => {
       return collection.items.value.filter(
         (divination) =>
-          !divination.characterId || divination.characterId === characterId
+          !divination.characterId || divination.characterId === characterId,
       );
     },
   };

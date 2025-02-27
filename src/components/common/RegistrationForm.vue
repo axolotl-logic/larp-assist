@@ -40,11 +40,10 @@
 </template>
 
 <script lang="ts">
-import { ref } from 'vue';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { defineComponent } from 'vue';
-import { useUserStore } from 'stores/user';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { useCharactersStore } from 'stores/characters';
+import { useUserStore } from 'stores/user';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   setup() {
@@ -70,7 +69,7 @@ export default defineComponent({
       createUserWithEmailAndPassword(auth, this.email, this.password)
         .then((userCred) => {
           const character = this.characterStore.getCharacterFromCode(
-            this.characterCode
+            this.characterCode,
           );
           if (character) {
             this.store.register(character.id, userCred.user.uid).then(() => {

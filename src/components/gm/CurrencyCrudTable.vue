@@ -28,15 +28,15 @@
 
 <script setup lang="ts">
 // Vue
-import { computed, ref, inject } from 'vue';
+import { computed, inject, ref } from 'vue';
 
 // Ours - stores
 import { useCurrenciesStore } from 'stores/currencies';
 
 // Ours - Components
+import CharacterMultiSelect from 'components/common/CharacterMultiSelect.vue';
 import CrudTable from 'components/common/CrudTable.vue';
 import DialogForm from 'components/common/DialogForm.vue';
-import CharacterMultiSelect from 'components/common/CharacterMultiSelect.vue';
 
 const columns = [
   {
@@ -83,10 +83,10 @@ const characterNames = inject('characterNames');
 const currencies = computed(() =>
   currenciesStore.items.map((currency) => ({
     characterNames: (currency.characterIds || []).map((id) =>
-      characterNames.value.get(id)
+      characterNames.value.get(id),
     ),
     ...currency,
-  }))
+  })),
 );
 
 // Determines when the loading indicator will be shown in the table

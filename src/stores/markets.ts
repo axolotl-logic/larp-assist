@@ -2,8 +2,8 @@
 import { defineStore } from 'pinia';
 
 // Ours
-import { useFirestoreCollection } from 'stores/firestore';
-import { Market } from 'src/models';
+import { Market } from '~/models';
+import { useFirestoreCollection } from '~/stores/firestore';
 
 export const useMarketsStore = defineStore('markets', () => {
   const collection = useFirestoreCollection<Market>('markets', {
@@ -19,12 +19,12 @@ export const useMarketsStore = defineStore('markets', () => {
     ...collection,
     getCharacterMarkets: (characterId: string) => {
       return collection.items.value.filter((market) =>
-        market.characterIds.includes(characterId)
+        market.characterIds.includes(characterId),
       );
     },
     getMarketNames: () =>
       new Map<string, string>(
-        collection.items.value.map(({ id, name }) => [id, name])
+        collection.items.value.map(({ id, name }) => [id, name]),
       ),
   };
 });

@@ -45,7 +45,7 @@ import { useCharactersStore } from 'stores/characters';
 // Ours - Components
 import CrudTable from 'components/common/CrudTable.vue';
 import DialogForm from 'components/common/DialogForm.vue';
-import { Character } from 'src/models';
+import { Character } from '~/models';
 
 const columns = ['name', 'notes', 'code'].map((name) => ({
   name: name,

@@ -2,8 +2,8 @@
 import { defineStore } from 'pinia';
 
 // Ours
-import { useFirestoreCollection } from 'stores/firestore';
-import { Character } from 'src/models';
+import { Character } from '~/models';
+import { useFirestoreCollection } from '~/stores/firestore';
 
 export const useCharactersStore = defineStore('characters', () => {
   const collection = useFirestoreCollection<Character>('characters', {
@@ -20,12 +20,12 @@ export const useCharactersStore = defineStore('characters', () => {
 
     getCharacterNames: () =>
       new Map<string, string>(
-        collection.items.value.map(({ id, name }) => [id, name])
+        collection.items.value.map(({ id, name }) => [id, name]),
       ),
 
     checkCode: (code: string) => {
       return collection.items.value.some(
-        (character) => character.code === code
+        (character) => character.code === code,
       );
     },
 
@@ -35,7 +35,7 @@ export const useCharactersStore = defineStore('characters', () => {
 
     getCharacterFromCode: (code: string) => {
       return collection.items.value.find(
-        (character) => character.code === code
+        (character) => character.code === code,
       );
     },
   };

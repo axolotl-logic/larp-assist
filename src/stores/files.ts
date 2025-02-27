@@ -2,8 +2,8 @@
 import { defineStore } from 'pinia';
 
 // Ours
-import { useFirestoreCollection } from 'stores/firestore';
-import { File } from 'src/models';
+import { File } from '~/models';
+import { useFirestoreCollection } from '~/stores/firestore';
 
 export const useFilesStore = defineStore('files', () => {
   const collection = useFirestoreCollection<File>('files', {
@@ -19,7 +19,7 @@ export const useFilesStore = defineStore('files', () => {
     ...collection,
     getFileNames: () =>
       new Map<string, string>(
-        collection.items.value.map(({ id, name }) => [id, name])
+        collection.items.value.map(({ id, name }) => [id, name]),
       ),
   };
 });

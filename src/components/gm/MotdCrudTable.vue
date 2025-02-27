@@ -26,15 +26,15 @@
 
 <script setup lang="ts">
 // Vue
-import { computed, ref, inject } from 'vue';
+import { computed, inject, ref } from 'vue';
 
 // Ours - stores
 import { useMotdsStore } from 'stores/motds';
 
 // Ours - Components
+import CharacterSelect from 'components/common/CharacterSelect.vue';
 import CrudTable from 'components/common/CrudTable.vue';
 import DialogForm from 'components/common/DialogForm.vue';
-import CharacterSelect from 'components/common/CharacterSelect.vue';
 
 const columns = [
   {
@@ -85,7 +85,7 @@ const motds = computed(() =>
   motdsStore.items.map((motd) => ({
     characterName: characterNames.value.get(motd.characterId),
     ...motd,
-  }))
+  })),
 );
 
 // Determines when the loading indicator will be shown in the table

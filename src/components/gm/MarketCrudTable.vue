@@ -30,16 +30,16 @@
 
 <script setup lang="ts">
 // Vue
-import { computed, ref, inject } from 'vue';
+import { computed, inject, ref } from 'vue';
 
 // Ours - stores
 import { useMarketsStore } from 'stores/markets';
 
 // Ours - Components
-import CrudTable from 'components/common/CrudTable.vue';
-import DialogForm from 'components/common/DialogForm.vue';
 import CharacterMultiSelect from 'components/common/CharacterMultiSelect.vue';
+import CrudTable from 'components/common/CrudTable.vue';
 import CurrencySelect from 'components/common/CurrencySelect.vue';
+import DialogForm from 'components/common/DialogForm.vue';
 
 const columns = [
   {
@@ -92,11 +92,11 @@ const currencyNames = inject('currencyNames');
 const markets = computed(() =>
   marketsStore.items.map((market) => ({
     characterNames: (market.characterIds || []).map((id) =>
-      characterNames.value.get(id)
+      characterNames.value.get(id),
     ),
     currencyName: currencyNames.value.get(market.currencyId),
     ...market,
-  }))
+  })),
 );
 
 // Determines when the loading indicator will be shown in the table

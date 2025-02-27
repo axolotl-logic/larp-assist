@@ -5,9 +5,9 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 
 // Ours
-import { useFirestoreCollection } from 'stores/firestore';
-import { Section, groupSectionsByChapter, SectionType } from 'src/models/books';
-import { useTrapsStore } from 'stores/traps';
+import { groupSectionsByChapter, Section, SectionType } from '~/models/books';
+import { useFirestoreCollection } from '~/stores/firestore';
+import { useTrapsStore } from '~/stores/traps';
 
 export const useSectionsStore = defineStore('sections', () => {
   const sectionsByBookId = ref(new Map<string, Array<Section>>());
@@ -55,7 +55,7 @@ export const useSectionsStore = defineStore('sections', () => {
 
                 return section.text;
               });
-            })
+            }),
           );
         });
       });

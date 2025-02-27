@@ -2,8 +2,8 @@
 import { defineStore } from 'pinia';
 
 // Ours
-import { useFirestoreCollection } from 'stores/firestore';
-import { Motd } from 'src/models';
+import { Motd } from '~/models';
+import { useFirestoreCollection } from '~/stores/firestore';
 
 export const useMotdsStore = defineStore('motds', () => {
   return {

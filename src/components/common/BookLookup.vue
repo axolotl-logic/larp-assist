@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 // Vue
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 
 // Ours - stores
 import { useBooksStore } from 'stores/books';
@@ -74,7 +74,7 @@ const booksStore = useBooksStore();
 booksStore.refresh();
 
 const book = computed(() =>
-  booksStore.items.find((book) => book.code == bookCode.value)
+  booksStore.items.find((book) => book.code == bookCode.value),
 );
 
 const onRead = () => {

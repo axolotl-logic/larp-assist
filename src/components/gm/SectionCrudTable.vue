@@ -50,13 +50,13 @@
 
 <script setup lang="ts">
 // Vue
-import { computed, ref, inject, watch } from 'vue';
+import { computed, inject, ref } from 'vue';
 
 // Ours - model
-import { SectionType, sortSections } from 'src/models/books';
+import { SectionType, sortSections } from '~/models/books';
 
 // Ours - stores
-import { useSectionsStore } from 'stores/sections';
+import { useSectionsStore } from '~/stores/sections';
 
 // Ours - Components
 import CrudTable from 'components/common/CrudTable.vue';
